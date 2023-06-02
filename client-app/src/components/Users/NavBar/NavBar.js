@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import './NavBar.css'
+import React, { useEffect, useState } from 'react';
+import './NavBar.css';
 
-import { Link } from 'react-router-dom'
-import { logout, selectUser } from '../../../Redux/User/userSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom';
+import { logout, selectUser } from '../../../Redux/User/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from "react-cookie";
 
-
-
-import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const menuItems = [
   {
@@ -22,41 +20,41 @@ const menuItems = [
   {
     name: 'Appointments',
     href: '/appointments',
+    loggedInOnly: true, // Visible only to logged-in users
   },
   {
-    name: 'chats',
-    href: '/chats'
+    name: 'Chats',
+    href: '/chats',
+    loggedInOnly: true, // Visible only to logged-in users
   },
   {
-    name: 'my Doctors',
-    href: '/appointed-doctors'
-
-  }
-]
-
+    name: 'My Doctors',
+    href: '/appointed-doctors',
+    loggedInOnly: true, // Visible only to logged-in users
+  },
+];
 
 const NavBar = () => {
-
   const user = useSelector(selectUser);
   const [cookies, removeCookie] = useCookies([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleLogout = () => {
-
-    dispatch(logout())
+    dispatch(logout());
     removeCookie("token");
   };
 
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-
+  const visibleMenuItems = menuItems.filter((item) => {
+    if (item.loggedInOnly && !user) {
+      return false; // Exclude the menu item if it's for logged-in users only and the user is not logged in
+    }
+    return true; // Include the menu item otherwise
+  });
 
   return (
     <>
@@ -67,7 +65,7 @@ const NavBar = () => {
           </div>
           <div className="hidden grow items-start lg:flex">
             <ul className="ml-12 inline-flex space-x-8">
-              {menuItems.map((item) => (
+              {visibleMenuItems.map((item) => (
                 <li key={item.name}>
                   <a
                     href={item.href}
@@ -80,36 +78,32 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="hidden lg:block">
-            {
-              user ?
+            {user ? (
+              <Link
+                onClick={handleLogout}
+                type="button"
+                className="rounded-md bg-blue--500 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+              >
+                Sign Out
+              </Link>
+            ) : (
+              <div>
                 <Link
-                  onClick={handleLogout}
-
+                  to='/signup'
                   type="button"
                   className="rounded-md bg-blue--500 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
                 >
-                  signout
+                  Sign Up
                 </Link>
-                :
-                <div>
-                  <Link
-                    to='/signup'
-                    type="button"
-                    className="rounded-md bg-blue--500 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-                  >
-                    signup
-                  </Link>
-                  <Link
-                    to='/signin'
-                    type="button"
-                    className="rounded-md bg-blue--500 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-                  >
-                    signin
-                  </Link>
-                </div>
-
-            }
-
+                <Link
+                  to='/signin'
+                  type="button"
+                  className="rounded-md bg-blue--500 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                >
+                  Sign In
+                </Link>
+              </div>
+            )}
           </div>
           <div className="lg:hidden">
             <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -120,7 +114,6 @@ const NavBar = () => {
                 <div className="px-5 pb-6 pt-5">
                   <div className="flex items-center justify-between">
                     <div className="inline-flex items-center space-x-2">
-                      
                       <span className="font-bold">webDoc</span>
                     </div>
                     <div className="-mr-2">
@@ -136,7 +129,7 @@ const NavBar = () => {
                   </div>
                   <div className="mt-6">
                     <nav className="grid gap-y-4">
-                      {menuItems.map((item) => (
+                      {visibleMenuItems.map((item) => (
                         <a
                           key={item.name}
                           href={item.href}
@@ -149,34 +142,30 @@ const NavBar = () => {
                       ))}
                     </nav>
                   </div>
-                  {
-                    user ?
-                      <button
-                        type="button"
-                        className="mt-4 w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-                      >
-                        sigout
-                      </button>
-                      :
-                      <button
-                        type="button"
-                        className="mt-4 w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-                      >
-                        signin
-                      </button>
-
-                  }
-
+                  {user ? (
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="mt-4 w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                    >
+                      Sign Out
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="mt-4 w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                    >
+                      Sign In
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           )}
         </div>
       </div>
-
-
     </>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;
