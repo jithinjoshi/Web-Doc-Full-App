@@ -20,8 +20,9 @@ import Transactions from "../pages/Admin/Transactions/Transactions";
 
 export const router = createBrowserRouter([
     {
-        path:'/admin',
+        path:'/',
         element:<Home/>,
+        errorElement:<ErrorPage/>
         
     },
     {

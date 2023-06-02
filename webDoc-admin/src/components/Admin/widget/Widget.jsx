@@ -23,7 +23,7 @@ const Widget = ({ type }) => {
         title: "PATIENTS",
         isMoney: false,
         link: "See all patients",
-        linkAddress:'users',
+        linkAddress:'/admin/users',
         data:details?.patients,
       };
       break;
@@ -32,7 +32,7 @@ const Widget = ({ type }) => {
         title: "DOCTORS",
         isMoney: false,
         link: "View all Doctors",
-        linkAddress:'doctors',
+        linkAddress:'/admin/doctors',
         data:details?.doctors,
       };
       break;

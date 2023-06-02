@@ -1,61 +1,152 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector} from 'react-redux';
-import { logout, selectUser} from '../../Redux/Doctor/doctorSlice';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../../Redux/Doctor/doctorSlice';
+import './NabBar.css'; // Import CSS file for responsive styles
 
-const NavBar = ({Logout}) => {
-    const user = useSelector(selectUser);
+const NavBar = ({ Logout }) => {
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
-    const logoutHandler = ((e)=>{
-        e.preventDefault();
-        Logout();
-        dispatch(logout())
-    })
-  return (
-    <>
-        <nav class="bg-white border-b border-gray-200 fixed z-30 w-full">
-                    <div class="px-3 py-3 lg:px-5 lg:pl-3">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center justify-start">
-                                <button id="toggleSidebarMobile" aria-expanded="true" aria-controls="sidebar" class="lg:hidden mr-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded">
-                                    <svg id="toggleSidebarMobileHamburger" class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <svg id="toggleSidebarMobileClose" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                                <a href="#" class="text-xl font-bold flex items-center lg:ml-10">
-                                        <span class="self-center whitespace-nowrap">webDoc</span>
-                                </a>
-                                <form action="#" method="GET" class="hidden lg:block lg:pl-32">
-                                    <label for="topbar-search" class="sr-only">Search</label>
-                                    <div class="mt-1 relative lg:w-64">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                        <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pl-10 p-2.5" placeholder="Search"/>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="flex items-center">
-                                <button id="toggleSidebarMobileSearch" type="button" class="lg:hidden text-gray-500 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg">
-                                    <span class="sr-only">Search</span>
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                                <button onClick={logoutHandler} class="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3">
-                                    Logout
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-    </>
-  )
-}
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-export default NavBar
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    Logout();
+    dispatch(logout());
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  return (
+    <nav className="bg-white border-b border-gray-200 fixed z-30 w-full">
+      <div className="px-3 py-3 lg:px-5 lg:pl-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center justify-start">
+            <button
+              id="toggleSidebarMobile"
+              aria-expanded="true"
+              aria-controls="sidebar"
+              className="lg:hidden mr-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded"
+              onClick={toggleSidebar}
+            >
+              <svg
+                id="toggleSidebarMobileHamburger"
+                className={`w-6 h-6 ${isSidebarOpen ? 'hidden' : ''}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <svg
+                id="toggleSidebarMobileClose"
+                className={`w-6 h-6 ${isSidebarOpen ? '' : 'hidden'}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <Link to="/doctor" className="text-lg font-medium">
+              webDoc
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div
+        id="sidebar"
+        className={`lg:hidden bg-white h-screen fixed top-0 left-0 w-64 transform duration-300 ease-in-out z-40 overflow-y-auto ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+      >
+        <button
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded"
+          onClick={closeSidebar}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <div className="border-t border-gray-200 py-2">
+          <Link
+            to="/dashboard"
+            className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
+            onClick={closeSidebar}
+          >
+            Dashboard
+          </Link>
+          <Link
+            to="/doctor/appointments"
+            className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
+            onClick={closeSidebar}
+          >
+            Appointments
+          </Link>
+          <Link
+            to="/doctor/patients"
+            className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
+            onClick={closeSidebar}
+          >
+            Patients
+          </Link>
+          <Link
+            to="/doctor/chat"
+            className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
+            onClick={closeSidebar}
+          >
+            Chats
+          </Link>
+          <Link
+            to="/doctor/payments"
+            className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
+            onClick={closeSidebar}
+          >
+            Payments
+          </Link>
+          <Link
+            to={`/doctor/profile/${user?._id}`}
+            className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
+            onClick={closeSidebar}
+          >
+            Profile
+          </Link>
+        </div>
+        <div className="absolute bottom-0 w-full py-3 px-4">
+          <button
+            className="block w-full text-left text-red-600 hover:text-red-800 focus:outline-none"
+            onClick={logoutHandler}
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default NavBar;

@@ -2,10 +2,19 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../Redux/Doctor/doctorSlice';
+import { logout } from '../../Redux/Doctor/doctorSlice';
+import { useDispatch} from 'react-redux';
 
 
-const SideBar = () => {
+const SideBar = ({Logout}) => {
     const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+
+    const logoutHandler = (e) => {
+        e.preventDefault();
+        Logout();
+        dispatch(logout());
+      };
 
 
     return (
@@ -90,6 +99,28 @@ const SideBar = () => {
                                         </svg>
                                         <span class="ml-3 flex-1 whitespace-nowrap">Profile</span>
                                     </Link>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={logoutHandler}
+                                        className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
+                                    >
+                                        <svg
+                                            className="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M17 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2zm-1 7H8" />
+                                            <path d="M12 2L12 12" />
+                                        </svg>
+                                        <span className="ml-3 flex-1 whitespace-nowrap">Logout</span>
+                                    </button>
+
                                 </li>
                             </ul>
 
