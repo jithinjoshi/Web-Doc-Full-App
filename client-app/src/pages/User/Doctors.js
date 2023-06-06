@@ -24,7 +24,7 @@ const Doctors = () => {
             <NavBar/>
             <Banner/>
             <FindPage/>
-            <Footer/>
+            {/* <Footer/> */}
 
 
         </>

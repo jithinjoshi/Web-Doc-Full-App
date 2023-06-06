@@ -21,6 +21,8 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
             recieverId: user?._id,
         };
 
+        
+
         const isExist = await checkConversationExistance(credentials);
 
         if (isExist?.data?.success) {

@@ -78,15 +78,14 @@ export async function getUser() {
 
 
 //get all doctors
-export const getAllDoctors = async () => {
+export const getAllDoctors = async (params) => {
     try {
-        const doctors = await axios.get('/api/user/doctors');
-        return doctors.data
-
+      const doctors = await axios.get('/api/user/doctors', { params: params || {} });
+      return doctors.data;
     } catch (error) {
-        return error;
+      return error;
     }
-}
+  };  
 
 //get all departments 
 export const getAllDepartments = async () => {

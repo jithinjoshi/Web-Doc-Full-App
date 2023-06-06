@@ -285,16 +285,27 @@ export const getUser = async (req, res,) => {
 //get all doctors
 export const getAllDoctors = async (req, res) => {
     try {
-
-
-        const doctors = await Doctor.find({ status: "approved" }, '-password');
-        res.status(200).send(doctors);
-
+      const { page, limit } = req.query;
+      const skip = (page - 1) * limit;
+  
+      console.log('Page:', page);
+      console.log('Limit:', limit);
+      console.log('Skip:', skip);
+  
+      const doctors = await Doctor.find({ status: "approved" }, '-password')
+        .skip(skip)
+        .limit(parseInt(limit));
+  
+      console.log('Doctors:', doctors);
+  
+      res.status(200).send(doctors);
     } catch (error) {
-        res.status(500).json({ err: "can't get all doctors" })
-
+      console.error(error);
+      res.status(500).json({ err: "Can't get all doctors" });
     }
-}
+  };
+      
+  
 
 //get single doctor
 export const getSingleDoctor = async (req, res) => {

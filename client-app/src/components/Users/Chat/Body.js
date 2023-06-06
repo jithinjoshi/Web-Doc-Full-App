@@ -39,6 +39,7 @@ const Body = () => {
     })
   },[user])
 
+
    //recieve message
    useEffect(()=>{
     socket.current.on('recieve-message',(data)=>{
