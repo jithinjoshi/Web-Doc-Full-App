@@ -50,24 +50,24 @@ export const signin = (async (req, res) => {
 
         if (admin) {
             const compare = await bcrypt.compare(password, admin.password);
-    
+
             if (compare) {
                 const token = createSecretTokenForAdmin(admin._id);
                 res.cookie("token", token, {
                     withCredentials: true,
                     httpOnly: false,
                 });
-                
-                res.status(201).send({ msg: "Login successfull", username: admin.email})
+
+                res.status(201).send({ msg: "Login successfull", username: admin.email })
             } else {
-                
+
                 res.status(500).send({ err: 'invalid credentials' });
             }
-        }else{
-            res.status(500).json({err:"wrong credentials"})
+        } else {
+            res.status(500).json({ err: "wrong credentials" })
         }
     } catch (error) {
-        
+
         return res.status(500).send({ err: error })
     }
 });
@@ -100,7 +100,7 @@ export const addDoctor = (async (req, res) => {
                 });
 
                 addNewDoctor.save().then(() => {
-                   
+
                     res.status(200).send({ success: "doctor added successfully" });
                 }).catch((err) => {
                     res.status(500).send({ err: "something went wrong" })
@@ -481,10 +481,10 @@ export const getWeeklyReport = (async (req, res) => {
             const dayData = result.find(data => data._id === index + 1);
             return dayData ? dayData.totalSales : 0
         });
-       
+
         res.status(201).json(salesByDay)
     } catch (error) {
-       
+
         res.status(500).json({ err: "can't create data" })
 
     }
@@ -511,7 +511,7 @@ export const getDailyReport = (async (req, res) => {
         ])
 
         const dailyPrices = result.length > 0 ? result[0].prices : 0;
-      
+
         res.status(201).json(dailyPrices)
 
     } catch (error) {
@@ -548,34 +548,34 @@ export const getYearlyReport = (async (req, res) => {
 export const getSaleReport = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-  
-    try {
-      const result = await Appointment.paginate(
-        {},
-        {
-          page,
-          limit,
-          populate: {
-            path: 'userId',
-            select: ['-password', '-tokens', '-mobile']
-          },
-          sort: { createdAt: -1 }
-        }
-      );
-  
-      const totalPages = Math.ceil(result.total / limit);
-  
-      res.status(201).json({
-        transactions: result.docs,
-        totalPages: totalPages
-      });
-    } catch (error) {
-      res.status(500).json({ err: "Can't access data" });
-    }
-  };
-  
 
-  export const getData = async (req, res,) => {
+    try {
+        const result = await Appointment.paginate(
+            {},
+            {
+                page,
+                limit,
+                populate: {
+                    path: 'userId',
+                    select: ['-password', '-tokens', '-mobile']
+                },
+                sort: { createdAt: -1 }
+            }
+        );
+
+        const totalPages = Math.ceil(result.total / limit);
+
+        res.status(201).json({
+            transactions: result.docs,
+            totalPages: totalPages
+        });
+    } catch (error) {
+        res.status(500).json({ err: "Can't access data" });
+    }
+};
+
+
+export const getData = async (req, res) => {
     const adminId = req.admin;
     try {
 
@@ -592,3 +592,34 @@ export const getSaleReport = async (req, res) => {
     }
 
 }
+
+//block doctor
+export const blockDoctor = async(req,res)=>{
+    const {id} = req.params;
+    try {
+        const doctor = await Doctor.findByIdAndUpdate(id,{isActive:false});
+        const doctors = await Doctor.find({})
+        res.status(200).json(doctors);
+        
+    } catch (error) {
+        res.status(500).json("can't block the doctor")
+        
+    }
+}
+
+//unblock doctor
+export const unblockDoctor = async(req,res)=>{
+    const {id} = req.params;
+    try {
+        const doctor = await Doctor.findByIdAndUpdate(id,{isActive:true});
+        const doctors = await Doctor.find({})
+        res.status(200).json(doctors);
+        
+    } catch (error) {
+        res.status(500).json("can't block the doctor")
+        
+    }
+}
+
+
+

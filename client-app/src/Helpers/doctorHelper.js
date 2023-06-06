@@ -144,6 +144,14 @@ export function getTotalPayments(id) {
     })
 }
 
+export function getFullProfit(){
+    return new Promise((resolve,reject)=>{
+        axios.get('/api/doctor/getMyProfit').then((data)=>{
+            resolve(data)
+        })
+    })
+}
+
 
 export function getAllConversations(id) {
     return new Promise((resolve, reject) => {

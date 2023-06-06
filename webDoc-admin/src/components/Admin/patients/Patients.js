@@ -14,23 +14,23 @@ const Patients = ({patients}) => {
   };
 
   const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
-              Block
-            </div>
-          </div>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 200,
+    //   renderCell: (params) => {
+    //     return (
+    //       <div className="cellAction">
+    //         <div
+    //           className="deleteButton"
+    //           onClick={() => handleDelete(params.row.id)}
+    //         >
+    //           Block
+    //         </div>
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
   return (
     <div className="datatable">

@@ -74,6 +74,10 @@ const doctorSchema = new mongoose.Schema({
     },
     doctorTimings:{
         type:Object
+    },
+    isActive:{
+        type:Boolean,
+        default:true
     }
 
 });

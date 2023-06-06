@@ -7,8 +7,10 @@ export const Auth = ((req, res, next) => {
   try {
     const token = req.cookies.token
   if (!token) {
+    
     return res.json({ status: false })
   }
+  
   jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
     if (err) {
      return res.json({ status: false })
@@ -73,6 +75,22 @@ export const AdminAuth = ((req, res, next) => {
   }
 })
 
+
+//block doctor
+export const checkBlockDoctor = async (req, res, next) => {
+  try {
+    if (req.doctor) {
+      const doctor = await Doctor.findById(req.doctor); // Use req.doctor instead of undefined variable id
+      if (!doctor?.isActive) {
+        return res.status(403).json({ message: 'Access denied. Doctor is blocked.' });
+      } else {
+        next();
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 
 

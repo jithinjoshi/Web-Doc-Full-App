@@ -6,7 +6,7 @@ import { logout, selectUser } from '../../../Redux/User/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from "react-cookie";
 
-import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
+import { Menu, X} from 'lucide-react';
 
 const menuItems = [
   {
@@ -32,6 +32,11 @@ const menuItems = [
     href: '/appointed-doctors',
     loggedInOnly: true, // Visible only to logged-in users
   },
+  {
+    name:'Profile',
+    href:'/profile',
+    loggedInOnly:true
+  }
 ];
 
 const NavBar = () => {

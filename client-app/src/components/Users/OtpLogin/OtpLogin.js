@@ -3,15 +3,38 @@ import OTPInput from "otp-input-react";
 import './OtpLogin.css'
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { verifyUser } from '../../../Helpers/userHelper';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../Redux/User/userSlice'
 
 const OtpLogin = () => {
     const history = useNavigate();
+    const dispatch = useDispatch();
     const [OTP, setOTP] = useState();
     const handleChange = (code) => setOTP(code);
 
     function onOTPVefify(){
         window.confirmationResult.confirm(OTP).then(async(result)=>{
-            history('/')
+            const mobile = result?.user?.phoneNumber;
+            if(mobile){
+                 verifyUser({mobile}).then((user)=>{
+                    dispatch(
+                        login({
+                            _id: user.data.user[0]?._id,
+                            email: user.data.user[0]?.email,
+                            username: user.data.user[0]?.username,
+                            token: user?.data?.token,
+                            mobile:user?.data?.user[0]?.mobile,
+                            loggedIn: true
+                        })
+                    )
+                    history('/')
+
+                 }).catch((err)=>{
+                    history('/signup')
+                 })
+            }
+            
             
         }).catch((err)=>{
             toast.error('Incorrect OTP input');

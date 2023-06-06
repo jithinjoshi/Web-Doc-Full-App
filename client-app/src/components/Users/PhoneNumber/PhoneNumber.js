@@ -29,7 +29,7 @@ const PhoneNumber = () => {
     async function onSignup() {
         const user = await loginWithOtp({mobile:ph});
 
-        if (user.data) {
+        if (user?.data) {
             
             onCapchVerify();
 
@@ -75,7 +75,10 @@ const PhoneNumber = () => {
                                     <input class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="number" name="" id=""/>
                                 </div>
                             </div> */}
+                        <div className='flex flex-row items-center justify-center text-center w-full rounded-xl outline-none py-5 text-sm shadow-sm'>
                         <PhoneInput country={"in"} value={ph} onChange={phone => setPh(phone)} />
+                        </div>
+                        
 
 
 

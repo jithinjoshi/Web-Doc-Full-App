@@ -211,6 +211,17 @@ export const paymentGate = (async credentials => {
 //     }
 // })
 
+//otp verify
+export const verifyUser = async(credentials)=>{
+    try {
+        const user = await axios.post('/api/user/otp-login-user',credentials);
+        return user;
+    } catch (error) {
+        return error
+        
+    }
+}
+
 export const loginWithOtp = async (credentials) => {
     try {
         const users = await axios.post('/api/user/login-with-otp', credentials);

@@ -167,7 +167,7 @@ export const getAppointments = async (req, res) => {
     try {
         const data = await Appointment.paginate(
             { doctorId: doctorId },
-            
+
             {
                 page,
                 limit,
@@ -200,11 +200,12 @@ export const getSingleDoctor = async (req, res) => {
 
 export const getFullPayment = async (req, res) => {
     const { id } = req.params;
+    const doctorId = req.doctor;
     try {
         const payment = await Appointment.aggregate([
             {
                 $match: {
-                    doctorId: new mongoose.Types.ObjectId(id)
+                    doctorId: new mongoose.Types.ObjectId(id || doctorId)
                 }
             },
             {
@@ -783,4 +784,36 @@ export const getSingleUser = async (req, res) => {
     }
 }
 
+export const getMyProfit = async (req, res) => {
+    try {
+        const doctorId = req.doctor;
+
+        const data = await Appointment.aggregate([
+            {
+                $match: { doctorId: doctorId}
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalPrice: { $sum: "$price" }
+                }
+            }
+        ])
+            .exec()
+            .then(result => {
+                if (result.length > 0) {
+                    const totalPrice = result[0].totalPrice;
+                    res.status(201).json(totalPrice)
+                } else {
+                    res.status(500).json("can't access data")
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    } catch (error) {
+        res.status(500).json({ err: "can't access data" })
+
+    }
+}
 

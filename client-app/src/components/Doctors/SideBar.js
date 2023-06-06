@@ -4,17 +4,61 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../Redux/Doctor/doctorSlice';
 import { logout } from '../../Redux/Doctor/doctorSlice';
 import { useDispatch} from 'react-redux';
+import { useCookies } from 'react-cookie';
+import {useNavigate} from 'react-router-dom'
+import { getDoctor } from '../../Helpers/doctorHelper';
+
+import { remove } from 'react-cookie';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 
-const SideBar = ({Logout}) => {
+
+const SideBar = () => {
+    const [cookies, removeCookie] = useCookies([]);
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const [doctor, setDoctor] = useState('');
 
-    const logoutHandler = (e) => {
+    const Logout = () => {
+        removeCookie('token');
+        dispatch(logout());
+        navigate('/doctor/signin');
+      };
+    
+      const logoutHandler = (e) => {
         e.preventDefault();
         Logout();
         dispatch(logout());
       };
+    
+      const checkDoctorExistence = async () => {
+        const doctor = await getDoctor();
+    
+        if (!doctor) {
+          remove('token');
+          dispatch(logout());
+          navigate('/doctor/signin');
+        } else {
+          setDoctor(doctor);
+        }
+      };
+    
+      useEffect(() => {
+        const verifyCookie = async () => {
+          const token = cookies.token;
+    
+          if (!token || token === 'undefined') {
+            dispatch(logout());
+            navigate('/doctor/signin');
+          } else {
+            await checkDoctorExistence();
+          }
+        };
+    
+        verifyCookie();
+      }, [cookies, navigate, dispatch]);
 
 
     return (
