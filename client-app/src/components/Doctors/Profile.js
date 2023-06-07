@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Profile = ({doctor,id}) => {
-  return (
-    <>
-        <div class="p-6">
+const Profile = ({ doctor, id }) => {
+    return (
+        <>
+            <div class="p-6">
                 <div class="p-8 bg-white shadow mt-24">
                     <div class="grid grid-cols-1 md:grid-cols-3">
                         <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0"></div>
@@ -29,14 +29,18 @@ const Profile = ({doctor,id}) => {
                         <button
                             class="text-indigo-500 py-2 px-4  font-medium mt-4"
                         >
-                            <Link to={`/doctor/edit/${id}`}>Edit Profile</Link>
+                            <Link to={`/doctor/edit/${id}`} data-te-toggle="tooltip"
+                                data-te-placement="top"
+                                data-te-ripple-init
+                                data-te-ripple-color="light"
+                                title="Edit your profile here">Edit Profile</Link>
                         </button>
                     </div>
 
                 </div>
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default Profile

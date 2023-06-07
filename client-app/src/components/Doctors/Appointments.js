@@ -21,7 +21,7 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
             recieverId: user?._id,
         };
 
-        
+
 
         const isExist = await checkConversationExistance(credentials);
 
@@ -68,7 +68,7 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
+
                                     {appointments?.map((appointment, index) => (
                                         <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
@@ -84,11 +84,18 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
                                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                 <button
                                                     onClick={() => createChatHandler(appointment?.userId?._id)}
-                                                    className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                                >
+                                                    className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-te-toggle="tooltip"
+                                                    data-te-placement="bottom"
+                                                    data-te-ripple-init
+                                                    data-te-ripple-color="light"
+                                                    title="start chat with the patient">
                                                     Chat
                                                 </button>
-                                                <Link to={`/room/${appointment?.userId?._id}`} className='inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ms-4'>
+                                                <Link to={`/room/${appointment?.userId?._id}`} className='inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ms-4' data-te-toggle="tooltip"
+                                                    data-te-placement="bottom"
+                                                    data-te-ripple-init
+                                                    data-te-ripple-color="light"
+                                                    title="start video call here">
                                                     create room
                                                 </Link>
                                             </td>

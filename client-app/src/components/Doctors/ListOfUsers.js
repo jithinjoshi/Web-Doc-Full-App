@@ -8,12 +8,12 @@ const ListOfUsers = () => {
     useEffect(() => {
         getPatients().then((patients) => {
             setPatients(patients?.data);
-        }).catch((err)=>{
-            navigate('/doctor/signin'); 
+        }).catch((err) => {
+            navigate('/doctor/signin');
         })
 
     }, [])
-   
+
     return (
         <>
             <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
@@ -44,7 +44,8 @@ const ListOfUsers = () => {
 
 
                                             <div class="flex-shrink-0">
-                                                <Link to={`/doctor/prescriptionList/${patient?._id}`} type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Prescripitons</Link>
+                                                <Link to={`/doctor/prescriptionList/${patient?._id}`} type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" data-te-toggle="tooltip"
+                                                    title="Manage prescription here">Prescripitons</Link>
                                             </div>
 
 

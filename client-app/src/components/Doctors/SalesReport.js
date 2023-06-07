@@ -27,7 +27,7 @@ const SalesReport = () => {
             setReport(data.transactions);
             setTotalPages(data.totalPages);
         } catch (error) {
-            navigate('/doctor/signin'); 
+            navigate('/doctor/signin');
             console.error(error);
             setReport([]);
             setTotalPages(0);
@@ -50,7 +50,11 @@ const SalesReport = () => {
         <div className='bg-gray-50'>
             <div className='overflow-x-auto w-full'>
                 <div className='flex justify-end'>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5' onClick={generatePDF}>
+                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5' data-te-toggle="tooltip"
+                        data-te-placement="bottom"
+                        data-te-ripple-init
+                        data-te-ripple-color="light"
+                        title="Dowload" onClick={generatePDF}>
                         Download PDF
                     </button>
                 </div>

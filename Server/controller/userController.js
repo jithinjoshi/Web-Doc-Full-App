@@ -288,15 +288,11 @@ export const getAllDoctors = async (req, res) => {
       const { page, limit } = req.query;
       const skip = (page - 1) * limit;
   
-      console.log('Page:', page);
-      console.log('Limit:', limit);
-      console.log('Skip:', skip);
   
       const doctors = await Doctor.find({ status: "approved" }, '-password')
         .skip(skip)
         .limit(parseInt(limit));
   
-      console.log('Doctors:', doctors);
   
       res.status(200).send(doctors);
     } catch (error) {
@@ -304,7 +300,7 @@ export const getAllDoctors = async (req, res) => {
       res.status(500).json({ err: "Can't get all doctors" });
     }
   };
-      
+
   
 
 //get single doctor

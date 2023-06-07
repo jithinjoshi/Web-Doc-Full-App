@@ -37,7 +37,6 @@ export const checkExistence = async(req,res)=>{
   try {
     const {senderId,recieverId} = req.body;
     const checkExistence = await Conversation.find({senderId,recieverId});
-    console.log(checkExistence,"::::")
     if(checkExistence.length > 0){
       res.status(200).json({success:false,message:'user already exist'});
     }else{
