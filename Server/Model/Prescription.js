@@ -16,7 +16,7 @@ const prescriptionSchema = new mongoose.Schema({
     type: String,
   },
   description: {
-    type: String,
+    type: String, 
   }
 }, { timestamps: true });
 

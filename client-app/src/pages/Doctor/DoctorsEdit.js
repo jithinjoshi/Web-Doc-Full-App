@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import SideBar from '../../components/Doctors/SideBar'
 import { Toaster, toast } from 'react-hot-toast'
 import { useFormik } from 'formik'
+import NavBar from '../../components/Doctors/NavBar'
 
 
 const DoctorsEdit = () => {
@@ -202,6 +203,7 @@ const DoctorsEdit = () => {
 
         <>
             <div>
+            <NavBar/>
                 <div class="flex overflow-hidden bg-white pt-16">
                     <SideBar />
                     <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
@@ -210,7 +212,7 @@ const DoctorsEdit = () => {
 
                             <div class="px-4">
                                 <h2 className='text-2xl'>Edit Profile</h2>
-                                <section className="px-2">
+                                <section className="px-2 mt-6">
                                     <Toaster position='top-center' reverseOrder={false}></Toaster>
                                     <form novalidate="" action="" className="container flex flex-col mx-auto space-y-10 ng-untouched ng-pristine ng-valid" onSubmit={formik.handleSubmit}>
                                         <fieldset className="grid grid-cols-4 gap-6 p-4 rounded-md shadow-sm border">

@@ -9,6 +9,8 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
     const user = useSelector(selectUser);
     const navigate = useNavigate();
 
+    const currentDate = new Date();
+
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
@@ -24,6 +26,7 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
 
 
         const isExist = await checkConversationExistance(credentials);
+        console.log(isExist, ":::::")
 
         if (isExist?.data?.success) {
             const create = await createConversation(credentials);
@@ -91,13 +94,20 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
                                                     title="start chat with the patient">
                                                     Chat
                                                 </button>
-                                                <Link to={`/room/${appointment?.userId?._id}`} className='inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ms-4' data-te-toggle="tooltip"
-                                                    data-te-placement="bottom"
-                                                    data-te-ripple-init
-                                                    data-te-ripple-color="light"
-                                                    title="start video call here">
-                                                    create room
-                                                </Link>
+                                                {new Date(appointment?.date) >= now ? ( // Compare the appointment date with the current date
+                                                    <Link
+                                                        to={`/room/${appointment?.userId?._id}`}
+                                                        className="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ms-4"
+                                                        data-te-toggle="tooltip"
+                                                        data-te-placement="bottom"
+                                                        data-te-ripple-init
+                                                        data-te-ripple-color="light"
+                                                        title="start video call here"
+                                                    >
+                                                        create room
+                                                    </Link>
+                                                ) : null}
+
                                             </td>
                                         </tr>
                                     ))}

@@ -33,18 +33,27 @@ export const getConversation = async (req, res) => {
 };
 
 
-export const checkExistence = async(req,res)=>{
+export const checkExistence = async (req, res) => {
   try {
-    const {senderId,recieverId} = req.body;
-    const checkExistence = await Conversation.find({senderId,recieverId});
-    if(checkExistence.length > 0){
-      res.status(200).json({success:false,message:'user already exist'});
-    }else{
-      res.status(200).json({success:true});
+    const { senderId, recieverId} = req.body;
+    console.log(senderId, recieverId);
+
+    // Check if a conversation document exists where senderId and receiverId are present in the members array
+    const checkExistence = await Conversation.findOne({
+      members: { $all: [senderId, recieverId] },
+    });
+
+    if (checkExistence) {
+      // Conversation document exists
+      res
+        .status(200)
+        .json({ success: false, message: 'Conversation already exists' });
+    } else {
+      // Conversation document does not exist
+      res.status(200).json({ success: true, message: 'Conversation does not exist' });
     }
-    
   } catch (error) {
-    return res.status(500).send({success:false,message:'something wrong'});
-    
+    console.error(error);
+    return res.status(500).send({ success: false, message: 'Something went wrong' });
   }
-}
+};

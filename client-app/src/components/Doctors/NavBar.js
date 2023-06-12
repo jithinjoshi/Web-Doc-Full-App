@@ -134,7 +134,7 @@ const NavBar = () => {
         </button>
         <div className="border-t border-gray-200 py-2">
           <Link
-            to="/dashboard"
+            to="/doctor"
             className="block px-4 py-2 text-gray-600 hover:bg-gray-100"
             onClick={closeSidebar}
           >

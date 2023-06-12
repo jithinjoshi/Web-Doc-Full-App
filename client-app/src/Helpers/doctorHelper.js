@@ -109,18 +109,27 @@ export function getAllMessages(credentials) {
     })
 }
 
-export function getMyAppointments(page) {
+export function getMyAppointments(page, date) {
     return new Promise((resolve, reject) => {
-        axios
-            .get(`/api/doctor/appointments?page=${page}`, null, { withCredentials: true })
-            .then((data) => {
-                resolve(data);
-            })
-            .catch((err) => {
-                reject(err);
-            });
+      axios
+        .get(`/api/doctor/appointments?page=${page}&date=${date}`, { withCredentials: true }) // Pass the date parameter in the URL
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
-}
+  }
+  
+
+// export function getMyAppointmentsCount(){
+//     return new Promise((resolve,reject)=>{
+//         axios.get('/api/doctor/appointments-count').then((data)=>{
+//             resolve(data)
+//         })
+//     })
+// }
 
 //sales report
 export async function salesReport(page) {
@@ -418,6 +427,7 @@ export async function createConversation(credentials) {
 }
 
 export async function checkConversationExistance(credentials) {
+    console.log(credentials,"::::")
     try {
         const existance = await axios.post('/api/conversation/check-existance', credentials);
         return existance;

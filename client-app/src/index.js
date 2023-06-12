@@ -5,20 +5,15 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes/routes";
 import './index.css'
 import { Provider } from "react-redux";
-import {store} from './Redux/Store'
+import { store, persistor } from './Redux/Store'; // Import persistor
 import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
-
-export const persistor = persistStore(store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-        <RouterProvider router={router} />
-        <PersistGate persistor={persistor}>
-        <App />
-        </PersistGate>
-    </React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={router} />
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );

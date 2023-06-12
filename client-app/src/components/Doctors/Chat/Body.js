@@ -95,7 +95,7 @@ const Body = () => {
       </div>
       <div class="basis-4/6">
         <div class="">
-          <Messages chat={currentChat} currentUserId={doctor?._id} setSendMessage={setSendMessage} recieveMessage={recieveMessage} />
+          <Messages chat={currentChat} currentUserId={doctor?._id} setSendMessage={setSendMessage} recieveMessage={recieveMessage} sendMessage={sendMessage}/>
         </div>
       </div>
     </div>

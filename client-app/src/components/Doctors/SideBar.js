@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../Redux/Doctor/doctorSlice';
 import { logout } from '../../Redux/Doctor/doctorSlice';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getDoctor } from '../../Helpers/doctorHelper';
 
 import { remove } from 'react-cookie';
@@ -20,45 +20,50 @@ const SideBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [doctor, setDoctor] = useState('');
+    const location = useLocation();
 
     const Logout = () => {
         removeCookie('token');
         dispatch(logout());
         navigate('/doctor/signin');
-      };
-    
-      const logoutHandler = (e) => {
+    };
+
+    const logoutHandler = (e) => {
         e.preventDefault();
         Logout();
         dispatch(logout());
-      };
-    
-      const checkDoctorExistence = async () => {
+    };
+
+    const checkDoctorExistence = async () => {
         const doctor = await getDoctor();
-    
+
         if (!doctor) {
-          remove('token');
-          dispatch(logout());
-          navigate('/doctor/signin');
-        } else {
-          setDoctor(doctor);
-        }
-      };
-    
-      useEffect(() => {
-        const verifyCookie = async () => {
-          const token = cookies.token;
-    
-          if (!token || token === 'undefined') {
+            remove('token');
             dispatch(logout());
             navigate('/doctor/signin');
-          } else {
-            await checkDoctorExistence();
-          }
+        } else {
+            setDoctor(doctor);
+        }
+    };
+
+    useEffect(() => {
+        const verifyCookie = async () => {
+            const token = cookies.token;
+
+            if (!token || token === 'undefined') {
+                dispatch(logout());
+                navigate('/doctor/signin');
+            } else {
+                await checkDoctorExistence();
+            }
         };
-    
+
         verifyCookie();
-      }, [cookies, navigate, dispatch]);
+    }, [cookies, navigate, dispatch]);
+
+    const isItemActive = (path) => {
+        return location.pathname === path;
+    };
 
 
     return (
@@ -82,7 +87,11 @@ const SideBar = () => {
                                     </form>
                                 </li>
                                 <li>
-                                    <Link to='/doctor/' class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                                    <Link
+                                        to="/doctor/"
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive('/doctor/') ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
@@ -92,7 +101,11 @@ const SideBar = () => {
                                 </li>
 
                                 <li>
-                                    <Link to='/doctor/chat' class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                    <Link
+                                        to="/doctor/chat"
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive('/doctor/chat') ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path>
                                             <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path>
@@ -101,7 +114,11 @@ const SideBar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to='/doctor/patients' class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                    <Link
+                                        to="/doctor/patients"
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive('/doctor/patients') ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
                                         </svg>
@@ -110,7 +127,11 @@ const SideBar = () => {
                                 </li>
 
                                 <li>
-                                    <Link to='/doctor/appointments' class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                    <Link
+                                        to="/doctor/appointments"
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive('/doctor/appointments') ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm1-1h14v4H3V2zm0 6v10h14V8H3zm3 3a1 1 0 010 2h8a1 1 0 010-2H6zm0 4a1 1 0 010 2h4a1 1 0 010-2H6z" />
                                         </svg>
@@ -119,7 +140,11 @@ const SideBar = () => {
                                 </li>
 
                                 <li>
-                                    <Link to='/doctor/select-schedule' class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                    <Link
+                                        to="/doctor/select-schedule"
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive('/doctor/select-schedule') ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm1-1h14v4H3V2zm0 6v10h14V8H3zm3 3a1 1 0 010 2h8a1 1 0 010-2H6zm0 4a1 1 0 010 2h4a1 1 0 010-2H6z" />
                                         </svg>
@@ -128,7 +153,11 @@ const SideBar = () => {
                                 </li>
 
                                 <li>
-                                    <Link to='/doctor/salesreport' class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                    <Link
+                                        to="/doctor/salesreport"
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive('/doctor/salesreport') ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path>
                                         </svg>
@@ -137,7 +166,11 @@ const SideBar = () => {
                                 </li>
 
                                 <li>
-                                    <Link to={`/doctor/profile/${user?._id}`} class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                    <Link
+                                        to={`/doctor/profile/${user?._id}`}
+                                        className={`text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group ${isItemActive(`/doctor/profile/${user?._id}`) ? 'bg-gray-100' : ''
+                                            }`}
+                                    >
                                         <svg class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 2c3.86 0 7 3.14 7 7v6c0 3.86-3.14 7-7 7s-7-3.14-7-7v-6c0-3.86 3.14-7 7-7zm0 2c-2.76 0-5 2.24-5 5v6c0 2.76 2.24 5 5 5s5-2.24 5-5v-6c0-2.76-2.24-5-5-5zm0 9c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" />
                                         </svg>

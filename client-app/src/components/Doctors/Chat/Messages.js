@@ -5,7 +5,7 @@ import SelectedUser from './SelectedUser';
 import Welcome from './Welcome';
 import { format } from 'timeago.js';
 
-const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage }) => {
+const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessages] = useState("");
@@ -46,7 +46,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage }) => {
     if (chat !== null) {
       fetchMessages();
     }
-  }, [chat]);
+  }, [chat,sendMessage]);
   
 
   const handleChange = (e) => {

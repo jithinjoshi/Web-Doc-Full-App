@@ -12,7 +12,7 @@ const Banner = () => {
         },
         {
             no: 2,
-            banner: 'https://img.freepik.com/premium-photo/concept-personal-doctor-with-online-consultation-treatment-methods-doctor-with-tablet_102583-6872.jpg?w=1380'
+            banner: 'https://images.unsplash.com/photo-1625134673337-519d4d10b313?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1838&q=80'
         },
         {
             no: 3,
@@ -24,7 +24,7 @@ const Banner = () => {
         },
         {
             no: 5,
-            banner: 'https://watermark.lovepik.com/photo/40007/3397.jpg_wh1200.jpg'
+            banner: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80'
         }
 
     ]

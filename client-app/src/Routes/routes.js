@@ -43,6 +43,9 @@ import PrescriptionDetails from "../pages/User/Prescription"
 import SelectSchedule from "../components/Doctors/SelectShedule";
 import DocScheduleTime from "../pages/Doctor/DocScheduleTime";
 
+import ProtectedRoute from "../utils/UserProtectedRoute";
+import DoctorProtectedRoute from '../utils/DoctorProtectedRoute'
+
 
 
 
@@ -79,17 +82,17 @@ export const router = createBrowserRouter([
     },
     {
         path:'/appointment/:id',
-        element:<BookDoctor/>,
+        element:<ProtectedRoute><BookDoctor/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/confirm-appointment/:id',
-        element:<Appointment/>,
+        element:<ProtectedRoute><Appointment/></ProtectedRoute> ,
         errorElement:<ErrorPage/>
     },
     {
         path:'/pay/:id',
-        element:<PayBefore/>,
+        element:<ProtectedRoute><PayBefore/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
@@ -120,12 +123,13 @@ export const router = createBrowserRouter([
     },
     {
         path:'/profile',
-        element:<Profile/>,
+        element:<ProtectedRoute><Profile/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/prescriptions/:doctorId',
-        element:<PrescriptionDetails/>
+        element:<ProtectedRoute> <PrescriptionDetails/></ProtectedRoute>,
+        errorElement:<ErrorPage/>   
     },
     {
         path:'/apply-doctor',
@@ -134,22 +138,23 @@ export const router = createBrowserRouter([
     },
     {
         path:'/appointments',
-        element:<Appointments/>,
+        element:<ProtectedRoute><Appointments/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/chats',
-        element:<Chats/>,
+        element:<ProtectedRoute><Chats/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/appointed-doctors',
-        element:<ConsultedDoctors/>,
+        element:<ProtectedRoute><ConsultedDoctors/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/room/:userId',
-        element:<Video/>
+        element:<ProtectedRoute><Video/></ProtectedRoute>,
+        errorElement:<ErrorPage/>   
     },
     
 
@@ -161,17 +166,17 @@ export const router = createBrowserRouter([
     },
     {
         path:'/doctor/',
-        element:<DoctorHome/>,
+        element:<DoctorProtectedRoute><DoctorHome/></DoctorProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:"/doctor/profile/:id",
-        element:<DoctorsProfile/>,
+        element:<DoctorProtectedRoute><DoctorsProfile/></DoctorProtectedRoute> ,
         errorElement:<ErrorPage/>
     },
     {
         path:"/doctor/edit/:id",
-        element:<DoctorsEdit/>,
+        element:<DoctorProtectedRoute><DoctorsEdit/></DoctorProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     
@@ -181,15 +186,16 @@ export const router = createBrowserRouter([
     },
     {
         path:'/doctor/appointments',
-        element:<DoctorAppointments/>
+        element:<DoctorProtectedRoute><DoctorAppointments/></DoctorProtectedRoute> ,
+        errorElement:<ErrorPage/>
     },
     {
         path:'/doctor/create-room/:userId',
-        element:<CreateRoom/>
+        element:<DoctorProtectedRoute><CreateRoom/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/editProfile',
-        element:<DocEdit/>
+        element:<DoctorProtectedRoute><DocEdit/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/apply-doctor',
@@ -201,27 +207,27 @@ export const router = createBrowserRouter([
     },
     {
         path:'/doctor/salesreport',
-        element:<SalesReport/>
+        element:<DoctorProtectedRoute><SalesReport/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/patients',
-        element:<PatientsOfDoctor/>
+        element:<DoctorProtectedRoute><PatientsOfDoctor/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/prescription/:userId',
-        element:<Prescription/>
+        element:<DoctorProtectedRoute><Prescription/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/prescriptionList/:userId',
-        element:<ListOfPrescriptions/>
+        element:<DoctorProtectedRoute><ListOfPrescriptions/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/updatePrescription/:prescriptionId',
-        element:<UpdatePrescription/>
+        element:<DoctorProtectedRoute><UpdatePrescription/></DoctorProtectedRoute>
     },
     {
         path:'/doctor/select-schedule',
-        element:<DocScheduleTime/>
+        element:<DoctorProtectedRoute><DocScheduleTime/></DoctorProtectedRoute>
     }
     
 ])

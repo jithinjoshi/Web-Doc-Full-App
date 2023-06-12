@@ -289,7 +289,7 @@ export const getAllDoctors = async (req, res) => {
       const skip = (page - 1) * limit;
   
   
-      const doctors = await Doctor.find({ status: "approved" }, '-password')
+      const doctors = await Doctor.find({ status: "approved",isActive:'true' }, '-password')
         .skip(skip)
         .limit(parseInt(limit));
   

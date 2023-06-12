@@ -164,33 +164,39 @@ export const getAppointments = async (req, res) => {
     const doctorId = req.doctor;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 3;
-    try {
-        const data = await Appointment.paginate(
-            { doctorId: doctorId },
-
-            {
-                page,
-                limit,
-                populate: {
-                    path: 'userId',
-                    select: '-password -tokens'
-                },
-                sort: { createdAt: -1 }
-            }
-        );
-        const totalPages = Math.ceil(data.total / limit);
-
-
-        res.status(201).json({
-            appointments: data.docs,
-            totalPages
-        });
-
-    } catch (error) {
-        res.send("can't find appointments")
-
+    const date = req.query.date; // Get the date parameter from the query
+  
+    const query = { doctorId };
+    if (date) {
+      const startDate = new Date(date);
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 1); // Set end date to the next day
+      query.date = { $gte: startDate, $lt: endDate }; // Filter appointments within the specified date range
     }
-}
+  
+    try {
+      const data = await Appointment.paginate(query, {
+        page,
+        limit,
+        populate: {
+          path: 'userId',
+          select: '-password -tokens',
+        },
+        sort: { createdAt: -1 },
+      });
+  
+      const totalPages = Math.ceil(data.total / limit);
+  
+      res.status(201).json({
+        appointments: data.docs,
+        totalPages,
+      });
+    } catch (error) {
+      res.send("Can't find appointments");
+    }
+  };
+  
+  
 
 export const getSingleDoctor = async (req, res) => {
     const { id } = req.params;

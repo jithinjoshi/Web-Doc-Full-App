@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { doctorProfile } from '../../Helpers/doctorHelper';
 import Profile from '../../components/Doctors/Profile';
 import SideBar from '../../components/Doctors/SideBar';
+import NavBar from '../../components/Doctors/NavBar';
 
 const DoctorsProfile = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const DoctorsProfile = () => {
   return (
     <>
       <div>
+      <NavBar/>
         <div className="flex overflow-hidden bg-white pt-16">
           <SideBar />
           <div className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>

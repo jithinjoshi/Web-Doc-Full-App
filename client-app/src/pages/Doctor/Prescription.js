@@ -3,12 +3,14 @@ import SideBar from '../../components/Doctors/SideBar'
 import PrescriptionForm from '../../components/Doctors/Prescription'
 import { useParams } from 'react-router-dom'
 import { getSingleAppointment } from '../../Helpers/doctorHelper'
+import NavBar from '../../components/Doctors/NavBar'
 
 const Prescription = () => {
     const {userId} = useParams();
   return (
     <>
             <div>
+            <NavBar/>
                 <div class="flex overflow-hidden bg-white pt-16">
                     <SideBar/>
                     <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>

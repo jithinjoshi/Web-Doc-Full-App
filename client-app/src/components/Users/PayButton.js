@@ -15,7 +15,7 @@ const PayButton = ({items}) => {
         
     }
   return (
-    <button onClick={handleClick}>Pay</button>
+    <div onClick={handleClick}>Pay</div>
   )
 }
 

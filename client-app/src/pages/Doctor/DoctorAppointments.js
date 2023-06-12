@@ -2,11 +2,13 @@ import React from 'react'
 
 import SideBar from '../../components/Doctors/SideBar'
 import FindPage from '../../components/Doctors/FindPage'
+import NavBar from '../../components/Doctors/NavBar'
 
 const DoctorAppointments = () => {
   return (
     <>
             <div>
+            <NavBar/>
                 <div class="flex overflow-hidden bg-white pt-16">
                     <SideBar/>
                     <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
