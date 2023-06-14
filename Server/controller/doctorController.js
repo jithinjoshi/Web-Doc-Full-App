@@ -818,6 +818,7 @@ export const getMyProfit = async (req, res) => {
                 console.error("Error:", error);
             });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ err: "can't access data" })
 
     }
