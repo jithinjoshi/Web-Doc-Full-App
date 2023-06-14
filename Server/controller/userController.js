@@ -455,37 +455,70 @@ export const payment = async (req, res) => {
 }
 
 export const handleWebhook = async (req, res) => {
-    const signature = req.headers['stripe-signature'];
-    const endpointSecret = "whsec_fGDyHi255DimVOaDOOdM7JJ6uHkEpmjK";
+    // const signature = req.headers['stripe-signature'];
+    // const endpointSecret = "whsec_fGDyHi255DimVOaDOOdM7JJ6uHkEpmjK";
 
-    let data;
-    let eventType;
+    // let data;
+    // let eventType;
 
-    if (endpointSecret) {
-        const payload = req.body;
-        const payloadString = JSON.stringify(payload, null, 2);
-        const header = stripe.webhooks.generateTestHeaderString({
-            payload: payloadString,
-            secret: endpointSecret,
-        });
-        let event;
-        try {
-            event = stripe.webhooks.constructEvent(payloadString, header, endpointSecret);
+    // if (endpointSecret) {
+    //     const payload = req.body;
+    //     const payloadString = JSON.stringify(payload, null, 2);
+    //     const header = stripe.webhooks.generateTestHeaderString({
+    //         payload: payloadString,
+    //         secret: endpointSecret,
+    //     });
+    //     let event;
+    //     try {
+    //         event = stripe.webhooks.constructEvent(payloadString, header, endpointSecret);
 
-        } catch (err) {
-            res.status(400).send(`Webhook Error: ${err.message}`);
-            return;
-        }
+    //     } catch (err) {
+    //         res.status(400).send(`Webhook Error: ${err.message}`);
+    //         return;
+    //     }
 
-        data = event.data.object;
-        eventType = event.type;
-    } else {
-        data = req.body.data.object;
-        eventType = req.body.type;
+    //     data = event.data.object;
+    //     eventType = event.type;
+    // } else {
+    //     data = req.body.data.object;
+    //     eventType = req.body.type;
+    // }
+    const event = req.body;
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object;
+        const paymentIntentId = session.payment_intent;
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+        const customer = await stripe.customers.retrieve(session.customer);
+        const appointmentsData = JSON.parse(customer.metadata.appointments);
+        const newAppointment = new Appointment({
+            userId: customer?.metadata?.userId,
+            doctorId: appointmentsData?.doctorId,
+            doctorName: appointmentsData?.doctor,
+            doctorImage: appointmentsData?.doctorImage,
+            department: appointmentsData?.doctorDepartment,
+            date: appointmentsData?.date,
+            time: appointmentsData?.time,
+            price: appointmentsData?.price,
+            payment_status: session?.payment_status,
+            paymentOwner: session?.customer_details?.name,
+            paymentOwnerEmail: session?.customer_details?.email
+
+        })
+        newAppointment.save();
+
+        break;
+      default:
+        break;
     }
+    res.end();
+  } catch (error) {
+    console.error('Error handling webhook:', error);
+    res.sendStatus(500);
+  }
 
     // Handle the event
-    if (eventType === "checkout.session.completed") {
         stripe.customers
             .retrieve(data.customer)
             .then((customer) => {
@@ -509,9 +542,7 @@ export const handleWebhook = async (req, res) => {
                 newAppointment.save();
 
             })
-    }
-    // Return a 200 response to acknowledge receipt of the event
-    res.send().end();
+   
 
 }
 
