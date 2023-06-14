@@ -418,7 +418,7 @@ export const payment = async (req, res) => {
         const customer = await stripe.customers.create({
             metadata: {
                 userId: line_items.userId,
-                appointments: line_items
+                appointments: JSON.stringify(line_items)
 
             }
         })
@@ -471,7 +471,7 @@ export const handleWebhook = async (req, res) => {
       case 'checkout.session.completed':
         const session = event.data.object;
         const customer = await stripe.customers.retrieve(session.customer);
-        const appointmentsData =await customer.metadata.appointments
+        const appointmentsData =await JSON.parse(customer.metadata.appointments)
         console.log(paymentIntent,customer,appointmentsData,'=>webhook')
         const newAppointment =await new Appointment({
             userId: customer?.metadata?.userId,
