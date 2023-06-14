@@ -492,6 +492,7 @@ export const handleWebhook = async (req, res) => {
         const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
         const customer = await stripe.customers.retrieve(session.customer);
         const appointmentsData =await JSON.parse(customer.metadata.appointments);
+        console.log(paymentIntent,customer,appointmentsData,'=>webhook')
         const newAppointment =await new Appointment({
             userId: customer?.metadata?.userId,
             doctorId: appointmentsData?.doctorId,
