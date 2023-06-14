@@ -58,7 +58,7 @@ export const signin = (async (req, res) => {
                     httpOnly: false,
                 });
 
-                res.status(201).send({ msg: "Login successfull", username: admin.email })
+                res.status(201).send({ msg: "Login successfull", email: admin.email })
             } else {
 
                 res.status(500).send({ err: 'invalid credentials' });

@@ -4,7 +4,7 @@ import mongoosePaginate from 'mongoose-paginate'
 const appointmentSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
-        ref:'User'
+        ref: 'User'
     },
     doctorId: {
         type: mongoose.Types.ObjectId
@@ -15,8 +15,8 @@ const appointmentSchema = new mongoose.Schema({
     doctorImage: {
         type: String
     },
-    department:{
-        type:String
+    department: {
+        type: String
     },
     date: {
         type: Date
@@ -24,17 +24,21 @@ const appointmentSchema = new mongoose.Schema({
     time: {
         type: String
     },
-    price:{
-        type:Number
+    price: {
+        type: Number
     },
-    payment_status:{
-        type:String
+    payment_status: {
+        type: String
     },
-    paymentOwner:{
-        type:String
+    paymentOwner: {
+        type: String
     },
-    paymentOwnerEmail:{
-        type:String
+    paymentOwnerEmail: {
+        type: String
+    },
+    chatLimit: {
+        type: Number,
+        default: 0
     }
 },
     { timestamps: true }

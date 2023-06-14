@@ -823,3 +823,16 @@ export const getMyProfit = async (req, res) => {
     }
 }
 
+//get total appointments
+export const getTotalAppointments = (async (req,res)=>{
+    try {
+        const doctor = req.doctor;
+        const totalAppointment = await Appointment.find({doctorId:doctor});
+        res.status(200).json(totalAppointment?.length);
+        
+    } catch (error) {
+        res.status(500).json("can't access doctor data")
+        
+    }
+})
+

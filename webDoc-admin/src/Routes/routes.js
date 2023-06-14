@@ -17,6 +17,8 @@ import Transactions from "../pages/Admin/Transactions/Transactions";
 
 // import BookDoctor from "../pages/User/BookDoctor";
 
+import ProtectedRoute from "../utlis/adminSlice";
+
 
 export const router = createBrowserRouter([
     {
@@ -32,52 +34,52 @@ export const router = createBrowserRouter([
     },
     {
         path:'/admin/users',
-        element:<Patients/>,
+        element:<ProtectedRoute><Patients/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/users/:userId',
-        element:<Single/>,
+        element:<ProtectedRoute><Single/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/doctors',
-        element:<Doctors/>,
+        element:<ProtectedRoute><Doctors/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/addDoctor',
-        element:<AddDoctor/>,
+        element:<ProtectedRoute><AddDoctor/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/departments',
-        element:<Departments/>,
+        element:<ProtectedRoute><Departments/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/update-doctor/:id',
-        element:<UpdateDoctor/>,
+        element:<ProtectedRoute><UpdateDoctor/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/notifications',
-        element:<Notifications/>,
+        element:<ProtectedRoute><Notifications/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/doctor-request/:id',
-        element:<DoctorRequest/>,
+        element:<ProtectedRoute><DoctorRequest/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/doctor-requests',
-        element:<AppliedDoctors/>,
+        element:<ProtectedRoute><AppliedDoctors/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     },
     {
         path:'/admin/transactions',
-        element:<Transactions/>,
+        element:<ProtectedRoute><Transactions/></ProtectedRoute>,
         errorElement:<ErrorPage/>
     } 
 ])

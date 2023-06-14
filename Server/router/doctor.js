@@ -33,6 +33,7 @@ router.route('/singlePrescription/:id').get(controller.singlePrescription);
 router.route('/getSingleUser/:id').get(controller.getSingleUser);
 router.route('/update-timeslots').put(DoctorAuth,controller.addDoctorTimeSlot);
 router.route('/getMyProfit').get(DoctorAuth,controller.getMyProfit);
+router.route('/totalAppointments').get(DoctorAuth,controller.getTotalAppointments);
 
 
 

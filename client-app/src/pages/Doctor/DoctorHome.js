@@ -6,6 +6,7 @@ import {
   getFullProfit,
   getMonthlyReport,
   getMyAppointments,
+  getMyAppointmentsCount,
   getPatients,
   getTotalPayments,
 } from '../../Helpers/doctorHelper';
@@ -26,9 +27,9 @@ const DoctorHome = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getMyAppointments().then((appointments) => {
+    getMyAppointmentsCount().then((appointments) => {
       setAppointmentData(appointments?.data);
-      setAppointments(appointments?.data?.appointments?.length);
+      setAppointments(appointments?.data);
     });
   }, [user]);
 

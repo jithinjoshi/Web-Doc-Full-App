@@ -2,8 +2,11 @@ import "./login.scss"
 import { useFormik } from 'formik'
 import { Link } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { signInAdmin } from "../../../Helpers/adminHelper";
+import { useSelector, useDispatch } from 'react-redux'
+import { login, selectAdmin } from "../../../redux/adminSlice";
+import { useEffect } from "react";
 
 const validate = values => {
   const errors = {};
@@ -26,7 +29,10 @@ const validate = values => {
 }
 
 const Login = () => {
+  const dispatch = useDispatch()
   const history = useNavigate();
+  const admin = useSelector(selectAdmin)
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -45,8 +51,12 @@ const Login = () => {
 
       signin.then((user) => {
         if (user) {
-          
-          history("/")
+          dispatch(login({
+            email:user?.data?.email
+          }))
+
+
+          history('/') 
 
         }
       }).catch((err) => {
@@ -56,19 +66,20 @@ const Login = () => {
     }
   })
 
+  
   return (
-    <div class="container">
+    <div className="container">
       <Toaster position='top-center' reverseOrder={false}></Toaster>
       <h1 style={{ textAlign: "center"}}>Admin Login</h1>
-      <div class="form">
-        <form action="#" class="login-form" onSubmit={formik.handleSubmit}>
+      <div className="form">
+        <form action="#" className="login-form" onSubmit={formik.handleSubmit}>
           <input type="text" name="email" placeholder="email" onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email} />
           <input type="password" name="password" placeholder="Password" onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password} />
-          <button type="submit" class="btn">Login</button>
+          <button type="submit" className="btn">Login</button>
         </form>
       </div>
     </div>

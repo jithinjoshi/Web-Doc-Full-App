@@ -121,15 +121,19 @@ export function getMyAppointments(page, date) {
         });
     });
   }
+
+  
   
 
-// export function getMyAppointmentsCount(){
-//     return new Promise((resolve,reject)=>{
-//         axios.get('/api/doctor/appointments-count').then((data)=>{
-//             resolve(data)
-//         })
-//     })
-// }
+export function getMyAppointmentsCount(){
+    return new Promise((resolve,reject)=>{
+        axios.get('/api/doctor/totalAppointments').then((data)=>{
+            resolve(data)
+        }).catch(err =>{
+            reject(err)
+        })
+    })
+}
 
 //sales report
 export async function salesReport(page) {

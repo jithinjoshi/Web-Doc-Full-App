@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
 import { signinDoctor } from '../../Helpers/doctorHelper'
-import { useDispatch } from 'react-redux'
-import { login } from '../../Redux/Doctor/doctorSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, selectUser } from '../../Redux/Doctor/doctorSlice'
 
 const validate = values => {
     const errors = {};
@@ -29,6 +29,16 @@ const validate = values => {
 const DoctorSignin = () => {
     const dispatch = useDispatch();
     const history = useNavigate();
+
+  const user = useSelector(selectUser);
+
+  useEffect(()=>{
+    if(user){
+      return history('/doctor')
+    }
+
+  },[user]);
+
     const formik = useFormik({
         initialValues: {
             email: '',

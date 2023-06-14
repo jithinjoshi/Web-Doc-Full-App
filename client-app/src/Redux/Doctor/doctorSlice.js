@@ -10,7 +10,7 @@ export const doctorSlice = createSlice({
             state.doctor = action.payload;
         },
         logout: (state) => {
-            state.doctor = "";
+            state.doctor = null;
             
         }
     }

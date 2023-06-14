@@ -9,6 +9,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessages] = useState("");
+  
   const scroll = useRef();
 
   useEffect(() => {

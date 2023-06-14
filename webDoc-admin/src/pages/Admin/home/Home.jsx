@@ -12,46 +12,52 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { getAdmin } from "../../../Helpers/adminHelper";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/adminSlice";
 
 const Home = () => {
   const [cookies, removeCookie] = useCookies([]);
-const [admin, setAdmin] = useState("");
-const navigate = useNavigate();
+  const [admin, setAdmin] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-const Logout = () => {
-  removeCookie("token");
-  navigate("/admin/login");
-};
 
-useEffect(() => {
-  try {
-    const verifyCookie = async () => {
-      
-      if (cookies.token === "undefined") {
-        navigate('/admin/login');
-        const admin = await getAdmin();
-        setAdmin(admin);
-        if (!admin) {
-          removeCookie("token");
-          navigate("/admin/login");
+  const Logout = () => {
+    removeCookie("token");
+    dispatch(logout());
+    navigate("/admin/login");
+  };
+
+  useEffect(() => {
+    try {
+      const verifyCookie = async () => {
+
+        if (cookies.token === "undefined") {
+          navigate('/admin/login');
+          const admin = await getAdmin();
+          setAdmin(admin);
+          if (!admin) {
+            removeCookie("token");
+
+            navigate("/admin/login");
+          }
         }
-      }
-    };
-  
-    verifyCookie();
-    
-  } catch (error) {
-    return error;
-    
-  }
-  
-}, [cookies, navigate, removeCookie]);
+      };
+
+      verifyCookie();
+
+    } catch (error) {
+      return error;
+
+    }
+
+  }, [cookies, navigate, removeCookie]);
 
   return (
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
-        <Navbar Logout={Logout}/>
+        <Navbar Logout={Logout} />
         <div className="widgets">
           <Widget type="user" />
           <Widget type="order" />
@@ -60,11 +66,11 @@ useEffect(() => {
         </div>
         <div className="charts">
           <Chart title="Monthly Revenue" aspect={2 / 1} />
-          <WeeklyChart title="Weekly Revenue" aspect={2/ 1} />
+          <WeeklyChart title="Weekly Revenue" aspect={2 / 1} />
         </div>
         <div className="charts">
-          <YearlyChart title='Yearly Revenue' aspect={2/1}/>
-          <DailyChart title='Daily Revenue' aspect={2/1}/>
+          <YearlyChart title='Yearly Revenue' aspect={2 / 1} />
+          <DailyChart title='Daily Revenue' aspect={2 / 1} />
         </div>
       </div>
     </div>
