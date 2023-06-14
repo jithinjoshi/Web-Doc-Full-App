@@ -56,41 +56,41 @@ const DoctorHome = () => {
     navigate('/doctor/signin');
   };
 
-  // const checkDoctorExistence = async () => {
-  //   const doctor = await getDoctor();
+  const checkDoctorExistence = async () => {
+    const doctor = await getDoctor();
 
-  //   if (!doctor) {
-  //     remove('token');
-  //     dispatch(logout());
-  //     navigate('/doctor/signin');
-  //   } else {
-  //     setDoctor(doctor);
-  //   }
-  // };
+    if (!doctor) {
+      remove('token');
+      dispatch(logout());
+      navigate('/doctor/signin');
+    } else {
+      setDoctor(doctor);
+    }
+  };
 
-  // useEffect(() => {
-  //   const verifyCookie = async () => {
-  //     const token = cookies.token;
+  useEffect(() => {
+    const verifyCookie = async () => {
+      const token = cookies.token;
 
-  //     if (!token || token === 'undefined') {
-  //       dispatch(logout());
-  //       navigate('/doctor/signin');
-  //     } else {
-  //       await checkDoctorExistence();
-  //     }
-  //   };
+      if (!token || token === 'undefined') {
+        dispatch(logout());
+        navigate('/doctor/signin');
+      } else {
+        await checkDoctorExistence();
+      }
+    };
 
-  //   verifyCookie();
-  // }, [cookies, navigate, dispatch]);
+    verifyCookie();
+  }, [cookies, navigate, dispatch]);
 
-  // useEffect(() => {
-  //   const cookie = cookies?.token;
-  //   console.log(cookie,":::")
-  //   if (!cookie) {
-  //     console.log("no cookie in useEffect")
-  //     navigate('/doctor/signin');
-  //   }
-  // }, []);
+  useEffect(() => {
+    const cookie = cookies?.token;
+    console.log(cookie,":::")
+    if (!cookie) {
+      console.log("no cookie in useEffect")
+      navigate('/doctor/signin');
+    }
+  }, []);
 
   return (
     <Doctor

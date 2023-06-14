@@ -70,6 +70,7 @@ const DoctorSignin = () => {
                         })
                     );
                     setTimeout(()=>{
+                        console.log("doctor page")
                         history("/doctor");
                     },2000)
                     

@@ -31,7 +31,7 @@ export const Auth = ((req, res, next) => {
 
 export const DoctorAuth = ((req, res, next) => {
   try {
-    const token = req.cookies.token
+    const token = req.cookies?.token
   if (!token) {
     return res.json({ status: "no token"})
   }
@@ -39,7 +39,7 @@ export const DoctorAuth = ((req, res, next) => {
     if (err) {
      return res.json({ status: 'verify failed' })
     } else {
-      const user = await Doctor.findById(data.id)
+      const user = await Doctor.findById(data?.id)
       if (user){
         req.doctor = user?._id
         next()
@@ -48,7 +48,7 @@ export const DoctorAuth = ((req, res, next) => {
     }
   })
   } catch (error) {
-    res.status(401).json({ err: 'unauthorized user' });
+    res.status(401).json({ err: 'unauthorqized user' });
   }
 })
 

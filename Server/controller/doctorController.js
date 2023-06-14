@@ -165,38 +165,38 @@ export const getAppointments = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 3;
     const date = req.query.date; // Get the date parameter from the query
-  
+
     const query = { doctorId };
     if (date) {
-      const startDate = new Date(date);
-      const endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + 1); // Set end date to the next day
-      query.date = { $gte: startDate, $lt: endDate }; // Filter appointments within the specified date range
+        const startDate = new Date(date);
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1); // Set end date to the next day
+        query.date = { $gte: startDate, $lt: endDate }; // Filter appointments within the specified date range
     }
-  
+
     try {
-      const data = await Appointment.paginate(query, {
-        page,
-        limit,
-        populate: {
-          path: 'userId',
-          select: '-password -tokens',
-        },
-        sort: { createdAt: -1 },
-      });
-  
-      const totalPages = Math.ceil(data.total / limit);
-  
-      res.status(201).json({
-        appointments: data.docs,
-        totalPages,
-      });
+        const data = await Appointment.paginate(query, {
+            page,
+            limit,
+            populate: {
+                path: 'userId',
+                select: '-password -tokens',
+            },
+            sort: { createdAt: -1 },
+        });
+
+        const totalPages = Math.ceil(data.total / limit);
+
+        res.status(201).json({
+            appointments: data.docs,
+            totalPages,
+        });
     } catch (error) {
-      res.send("Can't find appointments");
+        res.send("Can't find appointments");
     }
-  };
-  
-  
+};
+
+
 
 export const getSingleDoctor = async (req, res) => {
     const { id } = req.params;
@@ -796,7 +796,7 @@ export const getMyProfit = async (req, res) => {
 
         const data = await Appointment.aggregate([
             {
-                $match: { doctorId: doctorId}
+                $match: { doctorId: doctorId }
             },
             {
                 $group: {
@@ -824,15 +824,15 @@ export const getMyProfit = async (req, res) => {
 }
 
 //get total appointments
-export const getTotalAppointments = (async (req,res)=>{
+export const getTotalAppointments = (async (req, res) => {
     try {
-        const doctor = req.doctor;
-        const totalAppointment = await Appointment.find({doctorId:doctor});
+        const doctorId = req.doctor;
+        const totalAppointment = await Appointment.find({ doctorId: doctorId });
+        console.log(totalAppointment)
         res.status(200).json(totalAppointment?.length);
-        
     } catch (error) {
         res.status(500).json("can't access doctor data")
-        
+
     }
 })
 
