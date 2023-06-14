@@ -23,7 +23,7 @@ const SideBar = () => {
     const location = useLocation();
 
     const Logout = () => {
-        removeCookie('token');
+      
         dispatch(logout());
         navigate('/doctor/signin');
     };
@@ -31,35 +31,10 @@ const SideBar = () => {
     const logoutHandler = (e) => {
         e.preventDefault();
         Logout();
-        dispatch(logout());
+
     };
 
-    const checkDoctorExistence = async () => {
-        const doctor = await getDoctor();
-
-        if (!doctor) {
-            remove('token');
-            dispatch(logout());
-            navigate('/doctor/signin');
-        } else {
-            setDoctor(doctor);
-        }
-    };
-
-    useEffect(() => {
-        const verifyCookie = async () => {
-            const token = cookies.token;
-
-            if (!token || token === 'undefined') {
-                dispatch(logout());
-                navigate('/doctor/signin');
-            } else {
-                await checkDoctorExistence();
-            }
-        };
-
-        verifyCookie();
-    }, [cookies, navigate, dispatch]);
+    
 
     const isItemActive = (path) => {
         return location.pathname === path;

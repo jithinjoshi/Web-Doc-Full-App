@@ -56,6 +56,7 @@ const DoctorSignin = () => {
             })
 
             signin.then((user) => {
+                console.log("::::")
                 console.log(user)
                 if (user) {
                 
