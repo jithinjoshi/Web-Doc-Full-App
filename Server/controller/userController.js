@@ -455,7 +455,7 @@ export const payment = async (req, res) => {
 }
 
 export const handleWebhook = async (req, res) => {
-    const endpointSecret = "whsec_98351d7eaef6f96ad8d4da5bd4f2bf4413d7bbf97dd7a1302aeeb794ea875e62";
+    const endpointSecret = "whsec_i3otlgSVgPGCF3lLPd7IEcPEtdJlVzux";
     const sig = request.headers['stripe-signature'];
     let event;
 
