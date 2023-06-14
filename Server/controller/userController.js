@@ -455,28 +455,35 @@ export const payment = async (req, res) => {
 }
 
 export const handleWebhook = async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let endpointSecret = null;
-    let jsonStringify = JSON.stringify(req.body)
-        const payloadBuffer = Buffer.from(jsonStringify);
-        let data;
-        let eventType;
+    const signature = req.headers['stripe-signature'];
+    const endpointSecret = "whsec_98351d7eaef6f96ad8d4da5bd4f2bf4413d7bbf97dd7a1302aeeb794ea875e62";
 
+    let data;
+    let eventType;
 
-        if (endpointSecret) {   
-            try {
-                event = stripe.webhooks.constructEvent(payloadBuffer, sig, endpointSecret);
-                console.log('webhook verified');
-            } catch (err) {
-                console.log(`Webhook Error: ${err.message}`);
-                return res.status(400).send(`Webhook Error: ${err.message}`);
-            }
-            data = event.data.object
-            eventType = event.type
-        } else {
-            data = req.body.data.object
-            eventType = req.body.type
+    if (endpointSecret) {
+        const payload = req.body;
+        const payloadString = JSON.stringify(payload, null, 2);
+        const header = stripe.webhooks.generateTestHeaderString({
+            payload: payloadString,
+            secret: endpointSecret,
+        });
+        let event;
+        try {
+            event = stripe.webhooks.constructEvent(payloadString, header, endpointSecret);
+
+        } catch (err) {
+            res.status(400).send(`Webhook Error: ${err.message}`);
+            
+            return;
         }
+
+        data = event.data.object;
+        eventType = event.type;
+    } else {
+        data = req.body.data.object;
+        eventType = req.body.type;
+    }
 
     // Handle the event
     if (eventType === "checkout.session.completed") {
