@@ -808,7 +808,7 @@ export const getMyProfit = async (req, res) => {
             .exec()
             .then(result => {
                 if (result.length > 0) {
-                    const totalPrice = result[0].totalPrice;
+                    const totalPrice = result[0]?.totalPrice;
                     res.status(201).json(totalPrice)
                 } else {
                     res.status(500).json("can't access data")
@@ -818,6 +818,7 @@ export const getMyProfit = async (req, res) => {
                 console.error("Error:", error);
             });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ err: "can't access data" })
 
     }
