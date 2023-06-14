@@ -56,6 +56,7 @@ const DoctorSignin = () => {
             })
 
             signin.then((user) => {
+                console.log(user)
                 if (user) {
                 
         
@@ -69,13 +70,11 @@ const DoctorSignin = () => {
                             loggedIn: true
                         })
                     );
-                    setTimeout(()=>{
-                        console.log("doctor page")
-                        history("/doctor");
-                    },2000)
+                    history("/doctor");
                     
                 }
             }).catch((err) => {
+                console.log(err)
                 return err;
             })
 
