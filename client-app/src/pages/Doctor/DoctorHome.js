@@ -85,7 +85,9 @@ const DoctorHome = () => {
 
   useEffect(() => {
     const cookie = cookies?.token;
+    console.log(cookie,":::")
     if (!cookie) {
+      console.log("no cookie in useEffect")
       navigate('/doctor/signin');
     }
   }, []);
