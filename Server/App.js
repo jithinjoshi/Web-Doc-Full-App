@@ -28,7 +28,7 @@ const app = express();
 database();
 
 //middlewares
-app.use(cors({ origin: true, credentials: true, origin: ["http://localhost:3000","http://localhost:3001"] }));
+app.use(cors({ origin: true, credentials: true, origin: ["https://web-doc.jithinjoshi.live/","https://admin.jithinjoshi.live/"] }));
 app.use(express.json({ limit: '50mb' }));
 app.use(morgan('tiny'));
 app.use(cookieParser())
