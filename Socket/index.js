@@ -1,6 +1,6 @@
 const io = require('socket.io')(8800,{
     cors:{
-        origin:"https://web-doc.jithinjoshi.live/"
+        origin:"https://web-doc.jithinjoshi.live"
     }
 })
 
