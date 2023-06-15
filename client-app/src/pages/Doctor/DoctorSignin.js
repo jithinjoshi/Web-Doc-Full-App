@@ -56,8 +56,6 @@ const DoctorSignin = () => {
             })
 
             signin.then((user) => {
-                console.log("::::")
-                console.log(user)
                 if (user) {
                 
         
@@ -75,7 +73,6 @@ const DoctorSignin = () => {
                     
                 }
             }).catch((err) => {
-                console.log(err)
                 return err;
             })
 

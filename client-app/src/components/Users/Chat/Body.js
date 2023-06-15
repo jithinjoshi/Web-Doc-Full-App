@@ -32,7 +32,7 @@ const Body = () => {
 
   //socket
   useEffect(()=>{
-    socket.current = io('https://api.jithinjoshi.live/');
+    socket.current = io('http://localhost:8800');
     socket.current.emit("new-user-add",user?._id);
     socket.current.on('get-users',(users)=>{
       setOnlineUsers(users);
@@ -54,7 +54,6 @@ const Body = () => {
         setChats(data?.conversation);
         
       } catch (error) {
-       
         return error;
         
       }
@@ -63,10 +62,7 @@ const Body = () => {
   },[user]);
 
 
-  
-
-
-  const checkOnlineStatus = (chat)=>{
+  const checkOnlineStatus = (chat) => {
     const chatMember = chat.members.find((member)=>member !== user._id);
     const online = onlineUsers.find((user)=>user.userId === chatMember);
     return online ? true : false;
@@ -77,7 +73,7 @@ const Body = () => {
       <div class="messanger p-4 bg-white min-h-screen overflow-hidden flex flex-col sm:flex-row">
         <div class="sm:basis-2/6 sm:pt-3 bg-white border-r border-slate-100">
           <div class="">
-            <Search />
+            {/* <Search /> */}
             {
               chats?.map((chat)=>{
                 return(
@@ -93,10 +89,7 @@ const Body = () => {
         </div>
         <div className="basis-4/6">
           <div className="">
-            
-            <Messages chat={currentChat} currentUserId={user?._id} setSendMessage={setSendMessage} recieveMessage={recieveMessage}/>
-  
-  
+            <Messages chat={currentChat} currentUserId={user?._id} setSendMessage={setSendMessage} recieveMessage={recieveMessage} sendMessage={sendMessage}/>
           </div>
         </div>
       </div>

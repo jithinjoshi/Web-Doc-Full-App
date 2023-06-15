@@ -26,7 +26,7 @@ const Appointments = ({ appointments, totalPages, currentPage, setCurrentPage })
 
 
         const isExist = await checkConversationExistance(credentials);
-        console.log(isExist, ":::::")
+      
 
         if (isExist?.data?.success) {
             const create = await createConversation(credentials);

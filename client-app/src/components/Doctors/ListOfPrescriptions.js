@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { deletePrescription, getsingleUser, prescriptions } from '../../Helpers/doctorHelper';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
+import { copy } from 'clipboard';
 
 const ListOfPrescriptions = () => {
   const { userId } = useParams();
   const [prescription, setPrescription] = useState([]);
   const [user, setUser] = useState([]);
+  const [copiedPrescription, setCopiedPrescription] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,10 +51,16 @@ const ListOfPrescriptions = () => {
     }
   };
 
+  const copyToClipboard = (text) => {
+    copy(text);
+    setCopiedPrescription(text);
+    toast.success('Prescription copied to clipboard');
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-4">
-        <Toaster position="top-center" reverseOrder={false}></Toaster>
+        <Toaster position="top-center" reverseOrder={false} />
         <div className="flex flex-col col-span-3">
           <div className="flex flex-col space-y-4 p-6 text-gray-600">
             <div className="flex flex-row text-sm">
@@ -106,50 +114,36 @@ const ListOfPrescriptions = () => {
                     <h2>{prescription?.title}</h2>
                     <div className="flex flex-row text-sm">
                       <p className="flex items-center text-gray-500">{prescription?.description}</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col w-full relative bottom-0">
-                    <div className="grid grid-cols-3 border-t divide-x text-gray-500 bg-gray-50 dark:bg-transparent py-3">
-                      <Link to={`/doctor/updatePrescription/${prescription?._id}`} className="cursor-pointer uppercase text-xs flex flex-row items-center justify-center font-semibold">
-                        <div className="mr-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="20px"
-                            viewBox="0 0 24 24"
-                            width="20px"
-                            fill="#64748b"
-                          >
+                      {copiedPrescription === prescription?.description ? (
+                        <span className="ml-2 text-green-500">Copied!</span>
+                      ) : (
+                        <button
+                          onClick={() => copyToClipboard(prescription?.description)}
+                          className="ml-2 focus:outline-none"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#64748b">
                             <path d="M0 0h24v24H0z" fill="none" />
-                            <path
-                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                            />
+                            <path d="M16 18H4V6H2v14c0 1.1.9 2 2 2h14v-2zm3-16H9C7.9 2 7 .9 7 2v14c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V5l-5-5zm0 12H9V2h10v3z" />
                           </svg>
-                        </div>
-                        Update
-                      </Link>
-                      <button
-                        onClick={() => deleteHandler(prescription?._id)}
-                        className="cursor-pointer uppercase text-xs flex flex-row items-center justify-center font-semibold"
-                      >
-                        <div className="mr-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="20px"
-                            viewBox="0 0 24 24"
-                            width="20px"
-                            fill="#64748b"
-                          >
-                            <path d="M0 0h24v24H0V0z" fill="none" />
-                            <path
-                              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
-                            />
-                          </svg>
-                        </div>
-                        Remove
-                      </button>
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="flex items-center justify-between bg-gray-100 p-4">
+                <Link
+                  to={`/doctor/updatePrescription/${prescription?._id}`}
+                  className="text-blue-500 hover:text-blue-700"
+                >
+                  Edit
+                </Link>
+                <button
+                  onClick={() => deleteHandler(prescription._id)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}

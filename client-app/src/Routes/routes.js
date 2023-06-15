@@ -383,7 +383,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/doctor/',
-        element: <DoctorHome />,
+        element: <DoctorProtectedRoute><DoctorHome /></DoctorProtectedRoute>,
         errorElement: <ErrorPage />
     },
     {

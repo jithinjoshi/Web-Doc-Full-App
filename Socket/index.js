@@ -1,10 +1,14 @@
 const io = require('socket.io')(8800,{
     cors:{
-        origin:"https://web-doc.jithinjoshi.live"
+        // origin:"https://web-doc.jithinjoshi.live"
+        origin:"http://localhost:3000"
     }
 })
 
 let activeUsers = [];
+
+
+
 io.on("connection",(socket)=>{
 
 

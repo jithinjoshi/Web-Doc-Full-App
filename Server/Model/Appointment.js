@@ -35,10 +35,6 @@ const appointmentSchema = new mongoose.Schema({
     },
     paymentOwnerEmail: {
         type: String
-    },
-    chatLimit: {
-        type: Number,
-        default: 0
     }
 },
     { timestamps: true }

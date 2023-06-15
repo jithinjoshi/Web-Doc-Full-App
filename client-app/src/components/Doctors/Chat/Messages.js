@@ -35,10 +35,8 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        if (chat) {
           const data = await getMessages(chat._id);
           setMessages(data?.data?.messages);
-        }
       } catch (error) {
         return error;
       }
@@ -74,10 +72,6 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
     setSendMessage({ ...message, recieverId });
   };
   
-
-  
-  
-
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);

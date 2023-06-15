@@ -36,7 +36,7 @@ export const getConversation = async (req, res) => {
 export const checkExistence = async (req, res) => {
   try {
     const { senderId, recieverId} = req.body;
-    console.log(senderId, recieverId);
+  
 
     // Check if a conversation document exists where senderId and receiverId are present in the members array
     const checkExistence = await Conversation.findOne({

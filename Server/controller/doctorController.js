@@ -818,7 +818,6 @@ export const getMyProfit = async (req, res) => {
                 console.error("Error:", error);
             });
     } catch (error) {
-        console.log(error)
         res.status(500).json({ err: "can't access data" })
 
     }
@@ -829,7 +828,6 @@ export const getTotalAppointments = (async (req, res) => {
     try {
         const doctorId = req.doctor;
         const totalAppointment = await Appointment.find({ doctorId: doctorId });
-        console.log(totalAppointment)
         res.status(200).json(totalAppointment?.length);
     } catch (error) {
         res.status(500).json("can't access doctor data")

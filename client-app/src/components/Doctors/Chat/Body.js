@@ -28,16 +28,12 @@ const Body = () => {
   }, [sendMessage]);
 
 
-
-
-
-
   //get  doctor
   const { doctor } = useSelector((state) => state.doctor);
 
   //socket
   useEffect(() => {
-    socket.current = io('https://api.jithinjoshi.live');
+    socket.current = io('http://localhost:8800');
     socket.current.emit("new-user-add", doctor?._id);
     socket.current.on('get-users', (users) => {
       setOnlineUsers(users);
@@ -81,7 +77,6 @@ const Body = () => {
     <div class="messanger p-4 bg-white h-screen overflow-hidden flex flex-col sm:flex-row">
       <div class="sm:basis-2/6 sm:pt-3 bg-white border-r border-slate-100">
         <div class="">
-          <Search />
           {
             chats?.map((chat) => {
               return (

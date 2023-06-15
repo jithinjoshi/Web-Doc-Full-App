@@ -5,10 +5,11 @@ import SelectedUser from './SelectedUser';
 import Welcome from './Welcome';
 import { format } from 'timeago.js'
 
-const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage }) => {
+const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessages] = useState("");
+
   const scroll = useRef();
 
 
@@ -42,7 +43,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage }) => {
       }
     };
     if (chat !== null) fetchMessages();
-  }, [chat]);
+  }, [chat,sendMessage]);
 
   const handleChange = (e) => {
     setNewMessages((e.target.value));
@@ -61,8 +62,8 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage }) => {
       
       //setMessages([...messages, data?.messages]);
       setNewMessages('');
+      setMessages((prevMessages) => [...prevMessages, data?.messages]);
     } catch (error) {
-     
       return error;
     }
 
