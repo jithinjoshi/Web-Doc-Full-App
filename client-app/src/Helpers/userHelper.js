@@ -8,14 +8,17 @@ axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
 //signup
 export async function registerUser(credentials) {
-    return new Promise((resolve, reject) => {
-        axios.post('/api/user/register', credentials).then((data) => {
-            resolve(data)
-        }).catch((err) => {
-            reject(err)
-        })
-    })
-}
+    try {
+      const response = await axios.post('/api/user/register', credentials);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.err) {
+        throw new Error(error.response.data.err);
+      } else {
+        throw new Error('Registration failed');
+      }
+    }
+  }
 
 //signup with google
 export async function googleRegister(token) {

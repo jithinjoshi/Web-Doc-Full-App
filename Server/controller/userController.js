@@ -46,25 +46,23 @@ export const register = async (req, res) => {
 
         const checkEmail = new Promise((resolve, reject) => {
             User.findOne({ email }).then(user => {
-                if (user) {
-                    reject(new Error('emaill is already exist'))
-                } else {
-                    resolve();
-                }
+              if (user) {
+                reject('Email already exists');
+              } else {
+                resolve();
+              }
+            });
+          });
 
-            })
-        })
-
-        const checkMobile = new Promise((resolve, reject) => {
+          const checkMobile = new Promise((resolve, reject) => {
             User.findOne({ mobile }).then(user => {
-                if (user) {
-                    reject(new Error('mobile is already exist'))
-                } else {
-                    resolve();
-                }
-
-            })
-        })
+              if (user) {
+                reject('Mobile number already exists');
+              } else {
+                resolve();
+              }
+            });
+          });
 
 
 
@@ -134,6 +132,7 @@ const updateUserData = async (decodeValue, req, res) => {
         );
         res.status(200).send({ user: result })
     } catch (error) {
+        return error
 
     }
 }
@@ -191,6 +190,7 @@ export const googleLogin = async (req, res) => {
             if (!userExist) {
                 res.status(500).json({ err: "no user with this email address" })
             } else {
+                
                 res.status(200).json({ success: "successfully logged in" })
 
             }

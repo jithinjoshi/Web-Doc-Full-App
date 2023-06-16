@@ -103,6 +103,14 @@ const Signin = () => {
                        
                         if (data.user) {
                             setTimeout(() => {
+                                dispatch(
+                                    login({
+                                        _id: data?.user?._id,
+                                        email: user.data.user.email,
+                                        username: user.data.user.username,
+                                        loggedIn: true
+                                    })
+                                )
                                 history("/")
                             }, 2000)
 

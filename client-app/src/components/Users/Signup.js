@@ -3,6 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import toast, { Toaster } from 'react-hot-toast'
 import { googleRegister, loginWithOtp, registerUser } from '../../Helpers/userHelper'
+import { useDispatch } from 'react-redux'
+import { login } from '../../Redux/User/userSlice'
+
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 import { app } from '../../config/firebase-config'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
@@ -27,11 +32,10 @@ const validate = values => {
 
     //mobile
     else if (!values.mobile) {
-        errors.mobile = toast.error("mobile number is required");
-    }
-    else if (!/^[1-9]{1}[0-9]{9}$/.test(values.mobile)) {
-        errors.mobile = toast.error("invalid mobile number")
-    }
+        errors.mobile = toast.error("Mobile number is required");
+    } else if (!/^\d{12}$/.test(values.mobile)) {
+        errors.mobile = toast.error("Invalid mobile number");
+      }
 
 
     //password
@@ -54,6 +58,7 @@ const validate = values => {
 
 const Signup = () => {
     const history = useNavigate()
+    const dispatch = useDispatch();
 
     //validation
     const formik = useFormik({
@@ -68,23 +73,34 @@ const Signup = () => {
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: async values => {
-
-            const register = registerUser(values)
-
-            toast.promise(register, {
-                loading: 'creating...',
-                success: <b>sign up successfully</b>,
-                error: <b>Can't sign up user</b>
-            })
-
-            register.then((data) => {
-                if (data) {
-                    history("/signin")
+            // Handle registration logic here
+            const handleRegistration = async () => {
+                const register = registerUser(values);
+              
+                try {
+                  const data = await register;
+                  if (data) {
+                    history('/signin');
+                  }
+                } catch (error) {
+                  if (error.response && error.response.data) {
+                    const { errors } = error.response.data;
+                    const formErrors = {};
+                    errors.forEach(({ field, message }) => {
+                      formErrors[field] = toast.error(message);
+                    });
+                    formik.setErrors(formErrors);
+                  } else if (error.message) {
+                    toast.error(error.message);
+                  } else {
+                    toast.error('Error registering user');
+                  }
                 }
-            })
-
-
-        }
+              };
+              
+              handleRegistration();
+              
+          },
     })
 
     //signup with google
@@ -100,9 +116,17 @@ const Signup = () => {
         firebaseAuth.onAuthStateChanged((userCred) => {
             if (userCred) {
                 userCred.getIdToken().then((token) => {
-                   
+
                     googleRegister(token).then(data => {
                         if (data.user) {
+                            dispatch(
+                                login({
+                                    _id: data.user._id,
+                                    email: data.user.email,
+                                    username: data.user.username,
+                                    loggedIn: true
+                                })
+                            )
                             history("/")
                         }
 
@@ -140,25 +164,46 @@ const Signup = () => {
                                 onBlur={formik.handleBlur}
                                 value={formik.values.email} />
                         </label>
-                        <label for="email">
-                            <p class="font-medium text-slate-700 pb-2">Mobile Number</p>
-                            <input id="mobile" name="mobile" type="number" class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter email address" onChange={formik.handleChange}
+                        {/* <label for="email"> */}
+                        {/* <p class="font-medium text-slate-700 pb-2">Mobile Number</p>
+                            <PhoneInput country={"in"} class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter email address" onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.mobile} />
+                                value={formik.values.mobile}/> */}
+                        {/* <input id="mobile" name="mobile" type="number" class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter email address" onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.mobile} /> */}
+                        {/* </label> */}
+
+                        <label for="mobile">
+                            <p class="font-medium text-slate-700 pb-2">Mobile Number</p>
+                            <div className="w-full">
+                                <PhoneInput
+                                    country="in"
+                                    inputProps={{
+                                        name: 'mobile',
+                                        required: true,
+                                        autoFocus: false,
+                                        className: 'w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow',
+                                    }}
+                                    value={formik.values.mobile}
+                                    onChange={(value) => formik.setFieldValue('mobile', value)}
+                                    onBlur={formik.handleBlur}
+                                />
+                            </div>
                         </label>
                         <label for="password">
                             <p class="font-medium text-slate-700 pb-2">Password</p>
                             <input id="password" name="password" type="password" class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter your password" onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.password}/>
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password} />
                         </label>
                         <label for="password">
                             <p class="font-medium text-slate-700 pb-2">confirm Password</p>
                             <input id="password" name="confirmPassword" type="password" class="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter your password" onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.confirmPassword}/>
+                                onBlur={formik.handleBlur}
+                                value={formik.values.confirmPassword} />
                         </label>
-                       
+
                         <button class="w-full py-3 font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
