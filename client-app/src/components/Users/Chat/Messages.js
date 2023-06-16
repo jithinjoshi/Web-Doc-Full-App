@@ -11,7 +11,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
   const [newMessage, setNewMessages] = useState("");
 
   const scroll = useRef();
-
+  const chatArea = useRef();
 
   useEffect(() => {
     if (recieveMessage !== null && recieveMessage.conversationId === chat._id) {
@@ -43,10 +43,10 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
       }
     };
     if (chat !== null) fetchMessages();
-  }, [chat,sendMessage]);
+  }, [chat, sendMessage]);
 
   const handleChange = (e) => {
-    setNewMessages((e.target.value));
+    setNewMessages(e.target.value);
   }
 
   const handleSend = async (e) => {
@@ -59,8 +59,6 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
 
     try {
       const { data } = await newMessages(message);
-      
-      //setMessages([...messages, data?.messages]);
       setNewMessages('');
       setMessages((prevMessages) => [...prevMessages, data?.messages]);
     } catch (error) {
@@ -73,18 +71,15 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
   }
 
   useEffect(() => {
-    scroll.current?.scrollIntoView({ behaviour: "smooth" })
+    scroll.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
-
-
-
 
   return (
     <>
       {userData ? (
         <>
           <SelectedUser userData={userData} />
-          <div className="basis-4/6 mb-20">
+          <div className="basis-4/6 mb-20 overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }} ref={chatArea}>
             <div className="">
               <div className="message-area mt-4 px-4">
                 {messages.map((message, index) => {
@@ -111,7 +106,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
                 })}
               </div>
               {/* input */}
-              <div className="bg-gray-100 fixed bottom-0 w-2/3 pl-4 mb-3 flex flex-row justify-between items-center">
+              <div className="bg-gray-100 fixed bottom-0 w-2/3 pl-4 mb-2 flex flex-row justify-between items-center">
                 <input
                   className="w-full bg-gray-100 pt-3 mb-3 focus:outline-none font-light"
                   placeholder="Write a message"
@@ -130,7 +125,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
       )}
     </>
   );
-  
+
 };
 
 export default Messages;

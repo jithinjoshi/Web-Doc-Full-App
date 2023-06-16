@@ -24,7 +24,7 @@ const Users = ({ data, currentUserId, online }) => {
     }, [])
 
     return (
-        <div class="user-list overflow-y-auto sm:h-screen bg-white">
+        <div class="user-list bg-white">
             <div class="flex hover:bg-slate-100 transition px-5 py-3 hover:cursor-pointer">
                 <div class="pr-4">
                     <img className='rounded-full w-14 h-14' src={userData?.image ? userData?.image?.secure_url :"https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt='profile' width="50" />

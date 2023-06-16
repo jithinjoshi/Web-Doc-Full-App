@@ -11,6 +11,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
   const [newMessage, setNewMessages] = useState("");
   
   const scroll = useRef();
+   const chatArea = useRef();
 
   useEffect(() => {
     if (recieveMessage !== null && recieveMessage.conversationId === chat._id) {
@@ -81,7 +82,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
       {userData ? (
         <>
           <SelectedUser userData={userData} />
-          <div class="basis-4/6 mb-20">
+          <div class="basis-4/6 mb-20 overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }} ref={chatArea}>
             <div class="">
               <div className="message-area mt-4 px-4">
                 {messages.map((message, index) => {
