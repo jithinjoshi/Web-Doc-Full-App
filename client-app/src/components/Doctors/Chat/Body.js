@@ -9,6 +9,8 @@ import Messages from './Messages';
 import { getAllConversations } from '../../../Helpers/doctorHelper';
 
 
+
+
 const Body = () => {
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -26,6 +28,7 @@ const Body = () => {
       socket.current.emit('send-message', sendMessage)
     }
   }, [sendMessage]);
+
 
 
   //get  doctor
@@ -46,6 +49,9 @@ const Body = () => {
       setRecieveMessage(data)
     })
   }, [])
+
+
+
 
 
 
@@ -90,7 +96,7 @@ const Body = () => {
       </div>
       <div class="basis-4/6">
         <div class="">
-          <Messages chat={currentChat} currentUserId={doctor?._id} setSendMessage={setSendMessage} recieveMessage={recieveMessage} sendMessage={sendMessage}/>
+          <Messages chat={currentChat} currentUserId={doctor?._id} setSendMessage={setSendMessage} recieveMessage={recieveMessage} sendMessage={sendMessage} />
         </div>
       </div>
     </div>

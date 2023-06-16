@@ -4,8 +4,9 @@ import { getMessages, getsingleUser, newMessages } from '../../../Helpers/doctor
 import SelectedUser from './SelectedUser';
 import Welcome from './Welcome';
 import { format } from 'timeago.js';
+import CloudinaryWidget from './CloudinaryWidget';
 
-const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMessage }) => {
+const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMessage}) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessages] = useState("");
@@ -50,14 +51,14 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
   
 
   const handleChange = (e) => {
-    setNewMessages(e.target.value);
+    setNewMessages({type:'text',data:e.target.value});
   };
 
   const handleSend = async (e) => {
     e.preventDefault();
     const message = {
       sender: currentUserId,
-      text: newMessage.trim(),
+      text: {type:newMessage.type, data:newMessage.data.trim()},
       conversationId: chat?._id,
     };
   
@@ -77,6 +78,11 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
     scroll.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+
+  console.log(messages,"::")
+
+
+
   return (
     <>
       {userData ? (
@@ -91,7 +97,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
                       {message?.sender === currentUserId ? (
                         <div className="send-chat flex justify-end">
                           <div className="px-5 mb-2 bg-gray-200 text-slate-500 py-2 text-sm max-w-[80%] rounded font-light">
-                            <p>{message?.text}</p>
+                            {message.text.type === 'image' ? <img className='h-36' src={message?.text.data} alt='userSendMessage'/>: <p>{message?.text.data}</p>}
                             <span className="text-xs text-gray-400">{format(message?.createdAt)}</span>
                           </div>
                         </div>
@@ -99,7 +105,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
                         <div className="receive-chat flex justify-start">
                           <div className="px-5 mb-2 bg-violet-400 text-white py-2 text-sm max-w-[80%] rounded font-light">
                             <i className="fa fa-caret-up text-violet-400 -top-2 absolute"></i>
-                            <p>{message?.text}</p>
+                            {message.text.type === 'image' ? <img className='h-36' src={message?.text.data} alt='userSendMessage'/>: <p>{message?.text.data}</p>}
                             <span className="text-xs text-white-400">{format(message?.createdAt)}</span>
                           </div>
                         </div>
@@ -107,6 +113,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
                     </div>
                   );
                 })}
+
               </div>
               {/* input */}
               <div className="bg-gray-100 fixed bottom-0 w-2/3 pl-4 mb-3 flex flex-row justify-between items-center">
@@ -114,8 +121,9 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
                   className="w-full bg-gray-100 pt-3 mb-3 focus:outline-none font-light"
                   placeholder="Write a message"
                   onChange={handleChange}
-                  value={newMessage}
+                  value={newMessage?.data}
                 />
+                <CloudinaryWidget currentUserId={currentUserId} chat={chat} newMessages={newMessages} setSendMessage={setSendMessage} setMessages={setMessages}/>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded h-full mr-3" onClick={handleSend}>
                   <FiSend size={24} color="white" />
                 </button>

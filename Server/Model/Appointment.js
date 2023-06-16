@@ -35,7 +35,11 @@ const appointmentSchema = new mongoose.Schema({
     },
     paymentOwnerEmail: {
         type: String
-    }
+    },
+    chatCount: {
+        type: Number,
+        default: 0
+    },
 },
     { timestamps: true }
 );

@@ -38,6 +38,9 @@ socket.on("send-message",(data)=>{
 
 
 
+
+
+
 socket.on("disconnect",()=>{
     activeUsers = activeUsers.filter((user)=>user.socketId !== socket.id);
     io.emit('get-users',activeUsers)

@@ -72,7 +72,12 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+  }, [messages]);
+
+  const imageHandler = ()=>{
+
+  }
+
 
   return (
     <>
@@ -113,6 +118,7 @@ const Messages = ({ chat, currentUserId, setSendMessage, recieveMessage, sendMes
                   onChange={handleChange}
                   value={newMessage}
                 />
+    
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded h-full mr-3" onClick={handleSend}>
                   <FiSend size={24} color="white" />
                 </button>
