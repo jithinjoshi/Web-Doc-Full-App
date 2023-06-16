@@ -640,7 +640,29 @@ export const router = createBrowserRouter([
     },
     {
         path: '/doctor/select-schedule',
-        element: <DoctorProtectedRoute><DocScheduleTime /></DoctorProtectedRoute>
+        element:
+            (
+                <React.Suspense fallback={
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minHeight: '100vh'
+                    }}>
+                        <Dna
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="dna-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="dna-wrapper"
+                        />
+                    </div>
+                }>
+                    <DoctorProtectedRoute><DocScheduleTime /></DoctorProtectedRoute>
+                </React.Suspense>
+            ),
+
     }
 
 ])

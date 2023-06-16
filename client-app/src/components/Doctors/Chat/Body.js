@@ -36,7 +36,7 @@ const Body = () => {
 
   //socket
   useEffect(() => {
-    socket.current = io('http://localhost:8800');
+    socket.current = io('https://api.jithinjoshi.live/');
     socket.current.emit("new-user-add", doctor?._id);
     socket.current.on('get-users', (users) => {
       setOnlineUsers(users);

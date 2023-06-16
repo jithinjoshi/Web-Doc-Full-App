@@ -1,7 +1,6 @@
 const io = require('socket.io')(8800,{
     cors:{
-        // origin:"https://web-doc.jithinjoshi.live"
-        origin:"http://localhost:3000"
+        origin:"https://web-doc.jithinjoshi.live"
     }
 })
 
@@ -35,10 +34,6 @@ socket.on("send-message",(data)=>{
     }
 
 })
-
-
-
-
 
 
 socket.on("disconnect",()=>{

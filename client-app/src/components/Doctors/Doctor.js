@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavBar from './NavBar'
 import SideBar from './SideBar'
 import UsersCount from './UsersCount'
@@ -8,7 +8,11 @@ import WeeklyReport from './WeeklyReport'
 import YearlyReport from './YearlyReport'
 import DailyReport from './DailyReport'
 
+
+
 const Doctor = ({appointments,payment,patients,userId,Logout}) => {
+
+    
     return (
         <>
             <div>

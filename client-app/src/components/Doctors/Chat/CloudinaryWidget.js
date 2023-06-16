@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const CloudinaryWidget = ({currentUserId, chat, newMessages, setSendMessage, setMessages}) => {
+const CloudinaryWidget = ({currentUserId,chat, newMessages, setSendMessage, setMessages}) => {
   useEffect(() => {
     const cloudName = "dpswips7e"; // replace with your own cloud name
     const uploadPreset = "webDoc"; // replace with your own upload preset
@@ -13,7 +13,6 @@ const CloudinaryWidget = ({currentUserId, chat, newMessages, setSendMessage, set
       },
       async (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
           const message = {
             sender: currentUserId,
             text: {type:"image", data: result.info.secure_url},
@@ -55,7 +54,7 @@ const CloudinaryWidget = ({currentUserId, chat, newMessages, setSendMessage, set
 
   return (
     <button id="upload_widget" className="cloudinary-button">
-      Upload
+      Photos
     </button>
   );
 };
