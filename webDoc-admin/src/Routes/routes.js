@@ -23,7 +23,7 @@ import ProtectedRoute from "../utlis/adminSlice";
 export const router = createBrowserRouter([
     {
         path:'/',
-        element:<Home/>,
+        element:<ProtectedRoute><Home/></ProtectedRoute>,
         errorElement:<ErrorPage/>
         
     },
